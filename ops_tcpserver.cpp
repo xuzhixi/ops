@@ -3,6 +3,7 @@
 #include "ky_log.h"
 #include "ops_tcpserver.h"
 
+using OPS::Socket;
 using OPS::TcpServer;
 
 bool TcpServer::listened(int maxWaitCount)
@@ -34,7 +35,11 @@ bool TcpServer::accepted(TcpSocket &client, bool block)
 	if ( block == false )
 	{
 		// 设置为非阻塞
-		fcntl(fd, F_SETFL, fcntl(fd, F_GETFL) | O_NONBLOCK);
+		if ( Socket::setNonblock(fd) == false )
+		{
+			close(fd);
+			return false;
+		}
 	}
 
 	client.setFd( fd );

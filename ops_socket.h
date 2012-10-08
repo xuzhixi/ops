@@ -30,6 +30,7 @@ class Socket
 		void saveLocal(struct sockaddr_in &addr);		// 保存本地的IP和端口
 		void savePeer(struct sockaddr_in &addr);		// 保存对方的IP和端口
 		static void initSockAddr(struct sockaddr_in &addr, const char *ip, unsigned int port);	// 初始化sockaddr_in
+		static bool setNonblock(int fd);
 
 	private:
 		int fd;							///< 操作的socket句柄

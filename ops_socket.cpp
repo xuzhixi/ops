@@ -20,10 +20,18 @@ bool Socket::init(const char *ip, unsigned int port, int type, bool block)
 	}   
 
 	// SO_REUSEADDR 允许在bind()过程中本地地址可重复使用
-	setsockopt(this->fd, SOL_SOCKET, SO_REUSEADDR, (void *)&optval, sizeof(optval));	
+	if ( setsockopt(this->fd, SOL_SOCKET, SO_REUSEADDR, (void *)&optval, sizeof(optval)) != 0 )
+	{
+		KY_LOG_ERROR("setsockopt SO_REUSEADDR error");
+		return false;
+	}
+
 	if ( block == false )
 	{
-		fcntl(this->fd, F_SETFL, fcntl(this->fd, F_GETFL) | O_NONBLOCK);
+		if ( Socket::setNonblock(this->fd) == false )
+		{
+			return false;
+		}
 	}
 
 	Socket::initSockAddr( addr, ip, port );
@@ -40,7 +48,7 @@ bool Socket::init(const char *ip, unsigned int port, int type, bool block)
 		// 如果端口为ANY，则获取系统所分配的端口
 		getsockname(this->fd, (struct sockaddr *)&(addr), &addrLen);
 	}
-	
+
 	//snprintf(this->ip, "%s", ip);
 	this->saveLocal( addr );
 	return true;
@@ -108,4 +116,23 @@ void Socket::initSockAddr(struct sockaddr_in &addr, const char *ip, unsigned int
 	bzero(&(addr.sin_zero), 8);				// 把不需要的位清零
 }
 
+bool Socket::setNonblock(int fd)
+{
+	int opts;
 
+	opts = fcntl(fd, F_GETFL);
+	if( opts == -1 )
+	{
+		KY_LOG_ERROR("set socketFd nonblock, fcntl(%d, F_GETFL) error", fd);
+		return false;
+	}
+
+	opts = opts | O_NONBLOCK;
+	if( fcntl(fd, F_SETFL, opts) == -1 )
+	{
+		KY_LOG_ERROR("set socketFd:%d nonblock error", fd);
+		return false;
+	}   
+
+	return true; 
+}
