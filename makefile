@@ -25,9 +25,12 @@ AR_DEBUG=ar  cqs
 OBJECTS=\
 	ops_tcpserver.o\
 	ops_socket.o\
+	ops_mutex.o\
 	ops_mysql.o\
 	ky_time.o\
 	ops_database.o\
+	ops_thread.o\
+	ops_mutexguard.o\
 	ops_tcpsocket.o\
 	ky_log.o\
 	ops_udpsocket.o\
@@ -36,9 +39,12 @@ OBJECTS=\
 OBJECTS_DEBUG=\
 	ops_tcpserver.od\
 	ops_socket.od\
+	ops_mutex.od\
 	ops_mysql.od\
 	ky_time.od\
 	ops_database.od\
+	ops_thread.od\
+	ops_mutexguard.od\
 	ops_tcpsocket.od\
 	ky_log.od\
 	ops_udpsocket.od\
@@ -52,11 +58,15 @@ all: $(OBJECTS)
 	$(CPP_LINKER) libops.so $(OBJECTS) $(LIBS)
 ops_tcpserver.o: ./ops_tcpserver.cpp\
 	./ops_tcpsocket.h\
-	./ops_tcpserver.h
+	./ops_tcpserver.h\
+	./ops_socket.h
 	$(CPP) ops_tcpserver.o ./ops_tcpserver.cpp
 ops_socket.o: ./ops_socket.cpp\
 	./ops_socket.h
 	$(CPP) ops_socket.o ./ops_socket.cpp
+ops_mutex.o: ./ops_mutex.cpp\
+	./ops_mutex.h
+	$(CPP) ops_mutex.o ./ops_mutex.cpp
 ops_mysql.o: ./ops_mysql.cpp\
 	./ops_database.h\
 	./ops_mysql.h\
@@ -67,8 +77,16 @@ ky_time.o: ./ky_time.c
 ops_database.o: ./ops_database.cpp\
 	./ops_database.h
 	$(CPP) ops_database.o ./ops_database.cpp
+ops_thread.o: ./ops_thread.cpp\
+	./ops_thread.h
+	$(CPP) ops_thread.o ./ops_thread.cpp
+ops_mutexguard.o: ./ops_mutexguard.cpp\
+	./ops_mutexguard.h\
+	./ops_mutex.h
+	$(CPP) ops_mutexguard.o ./ops_mutexguard.cpp
 ops_tcpsocket.o: ./ops_tcpsocket.cpp\
-	./ops_tcpsocket.h
+	./ops_tcpsocket.h\
+	./ops_socket.h
 	$(CPP) ops_tcpsocket.o ./ops_tcpsocket.cpp
 ky_log.o: ./ky_log.c
 	$(CC) ky_log.o ./ky_log.c
@@ -84,11 +102,15 @@ debug: $(OBJECTS_DEBUG)
 	$(CPP_LINKER_DEBUG) libops.so $(OBJECTS_DEBUG) $(LIBS)
 ops_tcpserver.od: ./ops_tcpserver.cpp\
 	./ops_tcpsocket.h\
-	./ops_tcpserver.h
+	./ops_tcpserver.h\
+	./ops_socket.h
 	$(CPP_DEBUG) ops_tcpserver.od ./ops_tcpserver.cpp
 ops_socket.od: ./ops_socket.cpp\
 	./ops_socket.h
 	$(CPP_DEBUG) ops_socket.od ./ops_socket.cpp
+ops_mutex.od: ./ops_mutex.cpp\
+	./ops_mutex.h
+	$(CPP_DEBUG) ops_mutex.od ./ops_mutex.cpp
 ops_mysql.od: ./ops_mysql.cpp\
 	./ops_database.h\
 	./ops_mysql.h\
@@ -99,8 +121,16 @@ ky_time.od: ./ky_time.c
 ops_database.od: ./ops_database.cpp\
 	./ops_database.h
 	$(CPP_DEBUG) ops_database.od ./ops_database.cpp
+ops_thread.od: ./ops_thread.cpp\
+	./ops_thread.h
+	$(CPP_DEBUG) ops_thread.od ./ops_thread.cpp
+ops_mutexguard.od: ./ops_mutexguard.cpp\
+	./ops_mutexguard.h\
+	./ops_mutex.h
+	$(CPP_DEBUG) ops_mutexguard.od ./ops_mutexguard.cpp
 ops_tcpsocket.od: ./ops_tcpsocket.cpp\
-	./ops_tcpsocket.h
+	./ops_tcpsocket.h\
+	./ops_socket.h
 	$(CPP_DEBUG) ops_tcpsocket.od ./ops_tcpsocket.cpp
 ky_log.od: ./ky_log.c
 	$(CC_DEBUG) ky_log.od ./ky_log.c
