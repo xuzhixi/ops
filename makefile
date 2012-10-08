@@ -30,7 +30,6 @@ OBJECTS=\
 	ky_time.o\
 	ops_database.o\
 	ops_thread.o\
-	ops_mutexguard.o\
 	ops_tcpsocket.o\
 	ky_log.o\
 	ops_udpsocket.o\
@@ -44,7 +43,6 @@ OBJECTS_DEBUG=\
 	ky_time.od\
 	ops_database.od\
 	ops_thread.od\
-	ops_mutexguard.od\
 	ops_tcpsocket.od\
 	ky_log.od\
 	ops_udpsocket.od\
@@ -80,10 +78,6 @@ ops_database.o: ./ops_database.cpp\
 ops_thread.o: ./ops_thread.cpp\
 	./ops_thread.h
 	$(CPP) ops_thread.o ./ops_thread.cpp
-ops_mutexguard.o: ./ops_mutexguard.cpp\
-	./ops_mutexguard.h\
-	./ops_mutex.h
-	$(CPP) ops_mutexguard.o ./ops_mutexguard.cpp
 ops_tcpsocket.o: ./ops_tcpsocket.cpp\
 	./ops_tcpsocket.h\
 	./ops_socket.h
@@ -124,10 +118,6 @@ ops_database.od: ./ops_database.cpp\
 ops_thread.od: ./ops_thread.cpp\
 	./ops_thread.h
 	$(CPP_DEBUG) ops_thread.od ./ops_thread.cpp
-ops_mutexguard.od: ./ops_mutexguard.cpp\
-	./ops_mutexguard.h\
-	./ops_mutex.h
-	$(CPP_DEBUG) ops_mutexguard.od ./ops_mutexguard.cpp
 ops_tcpsocket.od: ./ops_tcpsocket.cpp\
 	./ops_tcpsocket.h\
 	./ops_socket.h
