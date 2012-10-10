@@ -3,12 +3,12 @@
 #include "ky_log.h"
 #include "ops_thread.h"
 #include "ops_mutex.h"
-#include "ops_lockguard.h"
+#include "ops_mutexguard.h"
 
 using std::string;
 using OPS::Thread;
 using OPS::Mutex;
-using OPS::LockGuard;
+using OPS::MutexGuard;
 
 Mutex g_mutex;
 
@@ -25,7 +25,7 @@ class TestThread : public Thread
 		{
 			int num = 0;
 
-			LockGuard<Mutex> gl(&g_mutex);
+			MutexGuard gl(&g_mutex);
 			while (1)
 			{
 				num++;
@@ -51,7 +51,7 @@ int main()
 	t.start();
 
 	sleep(1);
-	LockGuard<Mutex> gl(&g_mutex);
+	MutexGuard gl(&g_mutex);
 	printf("main function\n");
 	ky_log_close_default();
 

@@ -8,6 +8,8 @@ namespace OPS
 
 class Mutex
 {
+	friend class Condition;
+
 	public:
 		Mutex();
 		~Mutex();
@@ -16,6 +18,8 @@ class Mutex
 		bool unlock();
 	
 	private:
+		Mutex(const Mutex &);
+		Mutex &operator=(const Mutex &);
 		pthread_mutex_t mutex;
 };
 

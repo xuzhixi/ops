@@ -3,11 +3,19 @@
 
 using OPS::Thread;
 
+
+Thread::~Thread()
+{
+}
+
 bool Thread::start()
 {
-	if ( pthread_create( &(this->id), NULL, Thread::baseRun, this) != 0 )
+	int result;
+
+	result = pthread_create( &(this->id), NULL, Thread::baseRun, this);
+	if ( result != 0 )
 	{
-		KY_LOG_ERROR("pthread_create error");
+		KY_LOG_ERROR("pthread_create error, errno: %d", result);
 		return false;
 	}
 

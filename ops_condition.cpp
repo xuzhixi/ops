@@ -1,0 +1,102 @@
+#include <errno.h>
+#include "ky_log.h"
+#include "ops_condition.h"
+
+using OPS::Condition;
+
+Condition::Condition()
+{
+	int result;
+
+	result = pthread_cond_init( &(this->cond), NULL );
+	if ( result != 0 )
+	{
+		KY_LOG_ERROR("pthread_cond_init error, errno: %d", result);
+	}
+}
+
+Condition::~Condition()
+{
+	int result;
+
+	result = pthread_cond_destroy( &(this->cond) );
+	if ( result != 0 )
+	{
+		KY_LOG_ERROR("pthread_cond_destroy error, errno: %d", result);
+	}
+}
+
+bool Condition::wait(Mutex &m)
+{
+	int result;
+
+	result = pthread_cond_wait( &(this->cond), &(m.mutex) );
+	if ( result != 0 )
+	{
+		KY_LOG_ERROR("pthread_cond_wait error, errno: %d", result);
+		return false;
+	}
+
+	return true;
+}
+
+bool Condition::timeWait(Mutex &m, unsigned long sec, unsigned long nsec, bool *isTimeout)
+{
+	struct timespec timeout;
+	int result;
+
+	if ( isTimeout != NULL )
+	{
+		*isTimeout = false;
+	}
+
+	timeout.tv_sec = sec;
+	timeout.tv_nsec = nsec;
+	result = pthread_cond_timedwait( &(this->cond), &(m.mutex), &timeout );
+	if ( result != 0 )
+	{
+		if ( result == ETIMEDOUT )
+		{
+			KY_LOG_WARN("pthread_cond_timedwait, timeout(sec: %lu, nsec: %lu)", sec, nsec);
+			if ( isTimeout != NULL )
+			{
+				*isTimeout = true;
+			}
+		}
+		else
+		{
+			KY_LOG_ERROR("pthread_cond_timedwait error, errno: %d", result);
+		}
+		return false;
+	}
+
+	return true;
+}
+
+bool Condition::notify()
+{
+	int result;
+
+	result = pthread_cond_signal( &(this->cond) );
+	if ( result != 0 )
+	{
+		KY_LOG_ERROR("pthread_cond_signal error, errno: %d", result);
+		return false;
+	}
+
+	return true;
+}
+
+bool Condition::notifyAll()
+{
+	int result;
+
+	result = pthread_cond_broadcast( &(this->cond) );
+	if ( result != 0 )
+	{
+		KY_LOG_ERROR("pthread_cond_broadcast error, errno: %d", result);
+		return false;
+	}
+
+	return true;
+}

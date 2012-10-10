@@ -7,6 +7,7 @@ namespace OPS
 class Thread
 {
 	public:
+		virtual ~Thread();
 		bool start();
 		unsigned long getId();
 	

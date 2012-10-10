@@ -5,55 +5,64 @@ using OPS::Mutex;
 
 Mutex::Mutex()
 {
-	if ( pthread_mutex_init( &(this->mutex), NULL ) != 0 )
+	int result;
+	
+	result = pthread_mutex_init( &(this->mutex), NULL );
+	if ( result != 0 )
 	{
-		KY_LOG_ERROR("pthread_mutex_init error");
+		KY_LOG_ERROR("pthread_mutex_init error, errno: %d", result);
 	}
 }
 
 Mutex::~Mutex()
 {
-	if ( pthread_mutex_destroy( &(this->mutex) ) != 0 )
+	int result;
+
+	result = pthread_mutex_destroy( &(this->mutex) );
+	if ( result != 0 )
 	{
-		KY_LOG_ERROR("pthread_mutex_destroy error");
+		KY_LOG_ERROR("pthread_mutex_destroy error, errno: %d", result);
 	}
 }
 
 bool Mutex::lock()
 {
-	if ( pthread_mutex_lock( &(this->mutex) ) == 0 )
+	int result;
+
+	result = pthread_mutex_lock( &(this->mutex) );
+	if ( result != 0 )
 	{
-		return true;
-	}
-	else
-	{
-		KY_LOG_ERROR("pthread_mutex_lock error");
+		KY_LOG_ERROR("pthread_mutex_lock error, errno: %d", result);
 		return false;
 	}
+
+	return true;
 }
 
 bool Mutex::trylock()
 {
-	if ( pthread_mutex_trylock( &(this->mutex) ) == 0 )
+	int result;
+
+	result = pthread_mutex_trylock( &(this->mutex) );
+	if ( result != 0 )
 	{
-		return true;
-	}
-	else
-	{
-		KY_LOG_ERROR("pthread_mutex_trylock error");
+		KY_LOG_ERROR("pthread_mutex_trylock error, errno: %d", result);
 		return false;
 	}
+
+	return true;
 }
 
 bool Mutex::unlock()
 {
-	if ( pthread_mutex_unlock( &(this->mutex) ) == 0 )
+	int result;
+
+	result = pthread_mutex_unlock( &(this->mutex) );
+	if ( result != 0 )
 	{
-		return true;
-	}
-	else
-	{
-		KY_LOG_ERROR("pthread_mutex_unlock error");
+		KY_LOG_ERROR("pthread_mutex_unlock error, errno: %d", result);
 		return false;
 	}
+
+	return true;
 }
