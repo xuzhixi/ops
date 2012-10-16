@@ -4,7 +4,7 @@
 #include <map>
 #include <string>
 #include <mysql/mysql.h>
-#include "ops_database.h"
+#include "OPS_IDatabase.h"
 
 using std::map;
 using std::string;
@@ -12,7 +12,7 @@ using std::string;
 namespace OPS
 {
 
-class Mysql : public Database
+class Mysql : public IDatabase
 {
 	public:
 		Mysql(unsigned int timeout);

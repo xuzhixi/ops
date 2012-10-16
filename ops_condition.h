@@ -2,7 +2,7 @@
 #define __OPS_CONDITION_H
 
 #include <pthread.h>
-#include "ops_mutex.h"
+#include "OPS_Mutex.h"
 
 using OPS::Mutex;
 
@@ -15,7 +15,7 @@ class Condition
 		Condition();
 		~Condition();
 		bool wait(Mutex &m);
-		bool timeWait(Mutex &m, unsigned long sec, unsigned long usec, bool *isTimeout = NULL);
+		bool timeWait(Mutex &m, long sec, long usec, bool *isTimeout = NULL);
 		bool notify();
 		bool notifyAll();
 	

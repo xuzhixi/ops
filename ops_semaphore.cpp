@@ -1,6 +1,6 @@
 #include <errno.h>
 #include "ky_log.h"
-#include "ops_semaphore.h"
+#include "OPS_Semaphore.h"
 
 using OPS::Semaphore;
 

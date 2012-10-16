@@ -1,6 +1,6 @@
 #include "ky_log.h"
-#include "ops_tcpserver.h"
-#include "ops_tcpsocket.h"
+#include "OPS_TcpServer.h"
+#include "OPS_TcpSocket.h"
 
 using OPS::TcpServer;
 using OPS::TcpSocket;

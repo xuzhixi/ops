@@ -1,5 +1,5 @@
 #include "ky_log.h"
-#include "ops_readwritelock.h"
+#include "OPS_ReadWriteLock.h"
 
 using OPS::ReadWriteLock;
 

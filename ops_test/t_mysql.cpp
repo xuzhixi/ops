@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <ky_log.h>
-#include <ops_mysql.h>
+#include <OPS_Mysql.h>
 
 using namespace OPS;
 

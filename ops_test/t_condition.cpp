@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include "ops_mutex.h"
-#include "ops_condition.h"
+#include "OPS_Mutex.h"
+#include "OPS_Condition.h"
 
 using OPS::Mutex;
 using OPS::Condition;

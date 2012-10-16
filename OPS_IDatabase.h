@@ -1,5 +1,5 @@
-#ifndef __OPS_DATABASE_H
-#define __OPS_DATABASE_H
+#ifndef __OPS_IDATABASE_H
+#define __OPS_IDATABASE_H
 
 #include <string>
 
@@ -8,10 +8,10 @@ using std::string;
 namespace OPS 
 {
 
-class Database
+class IDatabase
 {
 	public:
-		virtual ~Database();
+		virtual ~IDatabase();
 		virtual bool connect(const char *host, unsigned int port, const char *user, const char *pwd, const char *dbname) = 0;
 		virtual bool execute(const char *sql) = 0;
 		virtual unsigned long executeId(const char *sql) = 0;
@@ -35,4 +35,4 @@ class Database
 
 }
 
-#endif // __OPS_DATABASE_H
+#endif // __OPS_IDATABASE_H

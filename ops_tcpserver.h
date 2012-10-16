@@ -1,7 +1,7 @@
 #ifndef __OPS_TCPSERVER_H
 #define __OPS_TCPSERVER_H
 
-#include "ops_tcpsocket.h"
+#include "OPS_TcpSocket.h"
 
 namespace OPS
 {

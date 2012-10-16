@@ -2,11 +2,15 @@
 #define __OPS_PRIORITYQUEUE_H
 
 #include <queue>
-#include "ops_mutex.h"
-#include "ops_mutexguard.h"
-#include "ops_condition.h"
+#include <functional>
+#include <vector>
+#include "OPS_Mutex.h"
+#include "OPS_MutexGuard.h"
+#include "OPS_Condition.h"
 
 using std::priority_queue;
+using std::less;
+using std::vector;
 using OPS::Mutex;
 using OPS::MutexGuard;
 using OPS::Condition;
@@ -14,7 +18,7 @@ using OPS::Condition;
 namespace OPS
 {
 
-template<class T>
+template<class T, class Compare = less<T> >
 class PriorityQueue
 {
 	public:
@@ -35,7 +39,7 @@ class PriorityQueue
 			this->popCond.notifyAll();
 		}
 		
-		bool push(const T &val, unsigned long sec, unsigned long nsec)
+		bool push(const T &val, long sec, long nsec = 0)
 		{
 			bool isTimeout;
 
@@ -70,7 +74,7 @@ class PriorityQueue
 			this->pushCond.notifyAll();
 		}
 
-		bool pop(T &val, unsigned long sec, unsigned long nsec)
+		bool pop(T &val, long sec, long nsec = 0)
 		{
 			bool isTimeout;
 
@@ -106,7 +110,7 @@ class PriorityQueue
 		}
 	
 	private:
-		priority_queue<T> queue;
+		priority_queue<T, vector<T>, Compare> queue;
 		size_t maxSize;				// 等于0，表示无队列长度限制
 		Mutex mutex;
 		Condition pushCond;

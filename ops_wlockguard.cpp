@@ -1,4 +1,4 @@
-#include "ops_wlockguard.h"
+#include "OPS_WlockGuard.h"
 
 using OPS::WlockGuard;
 

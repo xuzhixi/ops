@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
-#include "ops_parseopt.h"
+#include "OPS_ParseOpt.h"
 
 using OPS::ParseOpt;
 

@@ -2,10 +2,10 @@
 #include <algorithm>
 #include "ky_log.h"
 #include "ops_algorithm.h"
-#include "ops_mysql.h"
+#include "OPS_Mysql.h"
 
 
-using OPS::Database;
+using OPS::IDatabase;
 using OPS::Mysql;
 
 
@@ -68,7 +68,7 @@ bool Mysql::connect(const char *host, unsigned int port, const char *user, const
 
 bool Mysql::execute(const char *sql)
 {
-	if ( Database::getIsDebug() )
+	if ( IDatabase::getIsDebug() )
 	{
 		this->markSql( sql );
 	}

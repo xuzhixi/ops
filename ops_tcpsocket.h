@@ -1,7 +1,7 @@
 #ifndef __OPS_TCPSOCKET_H
 #define __OPS_TCPSOCKET_H
 
-#include "ops_socket.h"
+#include "OPS_Socket.h"
 
 namespace OPS
 {

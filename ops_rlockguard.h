@@ -1,7 +1,7 @@
 #ifndef __OPS_RLOCKGUARD_H
 #define __OPS_RLOCKGUARD_H
 
-#include "ops_readwritelock.h"
+#include "OPS_ReadWriteLock.h"
 
 namespace OPS
 {

@@ -1,7 +1,7 @@
 #ifndef __OPS_MUTEXGUARD_H
 #define __OPS_MUTEXGUARD_H
 
-#include "ops_mutex.h"
+#include "OPS_Mutex.h"
 
 namespace OPS
 {

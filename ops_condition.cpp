@@ -1,6 +1,7 @@
 #include <errno.h>
+#include <time.h>
 #include "ky_log.h"
-#include "ops_condition.h"
+#include "OPS_Condition.h"
 
 using OPS::Condition;
 
@@ -40,7 +41,7 @@ bool Condition::wait(Mutex &m)
 	return true;
 }
 
-bool Condition::timeWait(Mutex &m, unsigned long sec, unsigned long nsec, bool *isTimeout)
+bool Condition::timeWait(Mutex &m, long sec, long nsec, bool *isTimeout)
 {
 	struct timespec timeout;
 	int result;
@@ -50,8 +51,9 @@ bool Condition::timeWait(Mutex &m, unsigned long sec, unsigned long nsec, bool *
 		*isTimeout = false;
 	}
 
-	timeout.tv_sec = sec;
-	timeout.tv_nsec = nsec;
+	clock_gettime(CLOCK_REALTIME, &timeout);
+	timeout.tv_sec += sec;
+	timeout.tv_nsec += nsec;
 	result = pthread_cond_timedwait( &(this->cond), &(m.mutex), &timeout );
 	if ( result != 0 )
 	{

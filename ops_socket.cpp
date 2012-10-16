@@ -3,7 +3,7 @@
 #include <arpa/inet.h>
 #include <fcntl.h>
 #include "ky_log.h"
-#include "ops_socket.h"
+#include "OPS_Socket.h"
 
 using OPS::Socket;
 

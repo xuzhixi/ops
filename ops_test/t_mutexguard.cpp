@@ -1,5 +1,5 @@
-#include "ops_mutex.h"
-#include "ops_mutexguard.h"
+#include "OPS_Mutex.h"
+#include "OPS_MutexGuard.h"
 
 using OPS::Mutex;
 using OPS::MutexGuard;

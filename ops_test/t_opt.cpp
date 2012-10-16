@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string>
-#include "ops_parseopt.h"
+#include "OPS_ParseOpt.h"
 
 using OPS::ParseOpt;
 using std::string;
