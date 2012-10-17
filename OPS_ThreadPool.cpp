@@ -1,5 +1,19 @@
+//===============================================
+/**
+ *  @file OPS_ThreadPool.cpp
+ *
+ *  @author XuZhiXi
+ *  Email   932834199@qq.com or 932834199@163.com
+ *
+ *  Create datetime:  2012-10-17 08:20:13
+ *  Last   modified:  2012-10-17 08:20:13
+ *
+ *  Description: 
+ */
+//================================================
+
 #include "OPS_ThreadPool.h"
-#include "OPS_ThreadPool.hread.h"
+#include "OPS_ThreadPoolThread.h"
 
 using OPS::ThreadPool;
 using OPS::ThreadPoolThread;

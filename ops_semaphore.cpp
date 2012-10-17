@@ -1,3 +1,17 @@
+//===============================================
+/**
+ *  @file OPS_Semaphore.cpp
+ *
+ *  @author XuZhiXi
+ *  Email   932834199@qq.com or 932834199@163.com
+ *
+ *  Create datetime:  2012-10-17 08:19:39
+ *  Last   modified:  2012-10-17 08:19:39
+ *
+ *  Description: 
+ */
+//================================================
+
 #include <errno.h>
 #include "ky_log.h"
 #include "OPS_Semaphore.h"

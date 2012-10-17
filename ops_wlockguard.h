@@ -1,3 +1,17 @@
+//===============================================
+/**
+ *  @file OPS_WlockGuard.h
+ *
+ *  @author XuZhiXi
+ *  Email   932834199@qq.com or 932834199@163.com
+ *
+ *  Create datetime:  2012-10-17 08:20:32
+ *  Last   modified:  2012-10-17 08:20:32
+ *
+ *  Description: 
+ */
+//================================================
+
 #ifndef __OPS_WLOCKGUARD_H
 #define __OPS_WLOCKGUARD_H
 

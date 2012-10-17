@@ -1,3 +1,17 @@
+//===============================================
+/**
+ *  @file OPS_Socket.h
+ *
+ *  @author XuZhiXi
+ *  Email   932834199@qq.com or 932834199@163.com
+ *
+ *  Create datetime:  2012-10-17 08:19:43
+ *  Last   modified:  2012-10-17 08:19:44
+ *
+ *  Description: 
+ */
+//================================================
+
 #ifndef __OPS_SOCKET_H
 #define __OPS_SOCKET_H
 

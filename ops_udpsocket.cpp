@@ -1,3 +1,17 @@
+//===============================================
+/**
+ *  @file OPS_UdpSocket.cpp
+ *
+ *  @author XuZhiXi
+ *  Email   932834199@qq.com or 932834199@163.com
+ *
+ *  Create datetime:  2012-10-17 08:20:27
+ *  Last   modified:  2012-10-17 08:20:27
+ *
+ *  Description: 
+ */
+//================================================
+
 #include "OPS_UdpSocket.h"
 
 using OPS::UdpSocket;
