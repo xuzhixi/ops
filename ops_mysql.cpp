@@ -15,7 +15,7 @@
 #include <string>
 #include <algorithm>
 #include "ky_log.h"
-#include "ops_algorithm.h"
+#include "OPS_algorithm.h"
 #include "OPS_Mysql.h"
 
 
@@ -25,8 +25,17 @@ using OPS::Mysql;
 
 Mysql::Mysql(unsigned int timeout)
 {
+	my_bool reconnect = 1;
+
 	this->db = mysql_init( NULL );
+	if ( this->db == NULL )
+	{
+		KY_LOG_ERROR("mysql#unable to allocate database connection state");
+		return;
+	}
 	this->setOption( MYSQL_OPT_CONNECT_TIMEOUT, (char *)&timeout );	// 设置 timeout 秒连接超时
+	this->setOption( MYSQL_OPT_RECONNECT, (char *)&reconnect );		// 设置重连
+	//this->setOption( MYSQL_READ_DEFAULT_GROUP, "your_prog_name");	// MySQL 将读取my.cnf文件的[client]和[your_prog_name]部分配置
 	this->res = NULL;
 }
 
@@ -49,6 +58,7 @@ bool Mysql::setOption(enum mysql_option option, const char *arg)
 	}
 	else
 	{
+		this->markLastError();
 		return false;
 	}
 }
@@ -57,12 +67,13 @@ int Mysql::getFieldIndex(string fieldName)
 {
 	// 统一转为小写
 	std::transform(fieldName.begin(), fieldName.end(), fieldName.begin(), std::tolower);
-	if ( OPS::has_key(this->fieldMap.begin(), this->fieldMap.end(), fieldName) )
+	if ( this->fieldMap.find(fieldName) != this->fieldMap.end() )
 	{
 		return this->fieldMap[ fieldName ];
 	}
 	else
 	{
+		KY_LOG_WARN("mysql#can not found fieldName: %s", fieldName.c_str());
 		return -1;
 	}
 }
@@ -106,7 +117,7 @@ unsigned long Mysql::executeId(const char *sql)
 	}
 	else
 	{
-		return -1;
+		return 0;
 	}
 }
 
@@ -150,8 +161,13 @@ bool Mysql::next()
 		{
 			return true;
 		}
+		else
+		{
+			return false;
+		}
 	}
 
+	KY_LOG_WARN("mysql#res collection is NULL");
 	return false;
 }
 
@@ -161,9 +177,16 @@ int Mysql::getInt(const char *fieldName)
 	int value = -1;
 
 	index = this->getFieldIndex( fieldName );
-	if ( index != -1 && this->row[index] )    // 如果找到索引且索引对应的值不为NULL
+	if ( index != -1 )		// 如果找到索引
 	{
-		value = atoi( this->row[index] );
+		if ( this->row[index] != NULL )		// 索引对应的值不为NULL
+		{
+			value = atoi( this->row[index] );
+		}
+		else
+		{
+			value = 0;
+		}
 	}
 
 	return value;
@@ -175,9 +198,16 @@ long Mysql::getLong(const char *fieldName)
 	long value = -1;
 
 	index = this->getFieldIndex( fieldName );
-	if ( index != -1 && this->row[index] )    // 如果找到索引且索引对应的值不为NULL
+	if ( index != -1 )		// 如果找到索引
 	{
-		value = atol( this->row[index] );
+		if ( this->row[index] != NULL )		// 索引对应的值不为NULL
+		{
+			value = atol( this->row[index] );
+		}
+		else
+		{
+			value = 0;
+		}
 	}
 
 	return value;
@@ -188,12 +218,19 @@ string Mysql::getString(const char *fieldName)
 	int index;
 
 	index = this->getFieldIndex( fieldName );
-	if ( index != -1 && this->row[index] )    // 如果找到索引且索引对应的值不为NULL
+	if ( index != -1 )		// 如果找到索引
 	{
-		return string( this->row[index] );
+		if ( this->row[index] != NULL )		// 索引对应的值不为NULL
+		{
+			return string( this->row[index] );
+		}
+		else
+		{
+			return string("NULL");
+		}
 	}
 
-	return string();
+	return string("ERROR");
 }
 
 unsigned long Mysql::getAffectedRows()

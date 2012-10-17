@@ -29,7 +29,7 @@ namespace OPS
 class Mysql : public IDatabase
 {
 	public:
-		Mysql(unsigned int timeout);
+		Mysql(unsigned int timeout = 5);	// 默认5秒连接超时
 		~Mysql();
 		bool setOption(enum mysql_option option, const char *arg);
 		bool connect(const char *host, unsigned int port, const char *user, const char *pwd, const char *dbname);
