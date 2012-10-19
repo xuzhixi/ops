@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-17 08:19:39
- *  Last   modified:  2012-10-17 08:19:39
+ *  Last   modified:  2012-10-19 17:37:11
  *
  *  Description: 
  */
@@ -16,7 +16,8 @@
 #include "ky_log.h"
 #include "OPS_Semaphore.h"
 
-using OPS::Semaphore;
+namespace OPS
+{
 
 Semaphore::Semaphore(unsigned int value)
 {
@@ -78,4 +79,6 @@ bool Semaphore::getValue(int &val)
 	}
 
 	return true;
+}
+
 }

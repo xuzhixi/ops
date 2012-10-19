@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-17 08:18:47
- *  Last   modified:  2012-10-17 08:18:47
+ *  Last   modified:  2012-10-19 17:33:46
  *
  *  Description: 
  */
@@ -15,8 +15,8 @@
 #include "ky_log.h"
 #include "OPS_IDatabase.h"
 
-using OPS::IDatabase;
-
+namespace OPS
+{
 
 bool IDatabase::isDebug = true;                   ///< 如果设置为true, 则会打印每句执行的SQL语句; 默认为true
 
@@ -39,3 +39,4 @@ void IDatabase::setIsDebug(bool isDebug)
 	IDatabase::isDebug = isDebug;
 }
 
+}

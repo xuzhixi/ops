@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-17 08:20:01
- *  Last   modified:  2012-10-17 08:20:01
+ *  Last   modified:  2012-10-19 17:37:58
  *
  *  Description: 
  */
@@ -17,8 +17,8 @@
 #include "ky_log.h"
 #include "OPS_TcpServer.h"
 
-using OPS::Socket;
-using OPS::TcpServer;
+namespace OPS
+{
 
 bool TcpServer::listened(int maxWaitCount)
 {
@@ -60,4 +60,6 @@ bool TcpServer::accepted(TcpSocket &client, bool block)
 	client.savePeer( addr );
 
 	return true;
+}
+
 }

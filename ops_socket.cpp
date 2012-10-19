@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-17 08:19:47
- *  Last   modified:  2012-10-17 08:19:47
+ *  Last   modified:  2012-10-19 17:37:25
  *
  *  Description: 
  */
@@ -19,7 +19,8 @@
 #include "ky_log.h"
 #include "OPS_Socket.h"
 
-using OPS::Socket;
+namespace OPS
+{
 
 bool Socket::init(const char *ip, unsigned int port, int type, bool block)
 {
@@ -149,4 +150,6 @@ bool Socket::setNonblock(int fd)
 	}   
 
 	return true; 
+}
+
 }

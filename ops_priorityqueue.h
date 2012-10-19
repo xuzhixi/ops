@@ -25,9 +25,6 @@
 using std::priority_queue;
 using std::less;
 using std::vector;
-using OPS::Mutex;
-using OPS::MutexGuard;
-using OPS::Condition;
 
 namespace OPS
 {

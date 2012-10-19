@@ -18,8 +18,6 @@
 #include <pthread.h>
 #include "OPS_Mutex.h"
 
-using OPS::Mutex;
-
 namespace OPS
 {
 

@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-17 08:19:56
- *  Last   modified:  2012-10-17 08:19:56
+ *  Last   modified:  2012-10-19 17:37:35
  *
  *  Description: 
  */
@@ -14,7 +14,8 @@
 
 #include "OPS_Task.h"
 
-using OPS::Task;
+namespace OPS
+{
 
 Task::Task(int level)
 {
@@ -50,4 +51,6 @@ bool Task::operator()(Task *&t1, Task *&t2) const
 	{
 		return false;
 	}
+}
+
 }

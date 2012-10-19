@@ -1,26 +1,20 @@
 //===============================================
 /**
- *  @file OPS_Process.cpp
+ *  @file OPS_DbConnectPool.cpp
  *
  *  @author XuZhiXi
  *  Email   932834199@qq.com or 932834199@163.com
  *
- *  Create datetime:  2012-10-17 08:19:25
- *  Last   modified:  2012-10-19 17:36:28
+ *  Create datetime:  2012-10-19 17:23:03
+ *  Last   modified:  2012-10-19 17:23:03
  *
  *  Description: 
  */
 //================================================
 
-#include <unistd.h>
-#include "OPS_Process.h"
+#include "OPS_DbConnectPool.h"
 
 namespace OPS
 {
-
-long Process::currentPid()
-{
-	return (long)getpid();
-}
 
 }

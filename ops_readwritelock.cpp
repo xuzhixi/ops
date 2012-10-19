@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-17 08:19:29
- *  Last   modified:  2012-10-17 08:19:29
+ *  Last   modified:  2012-10-19 17:36:42
  *
  *  Description: 
  */
@@ -15,7 +15,8 @@
 #include "ky_log.h"
 #include "OPS_ReadWriteLock.h"
 
-using OPS::ReadWriteLock;
+namespace OPS
+{
 
 ReadWriteLock::ReadWriteLock()
 {
@@ -107,4 +108,6 @@ bool ReadWriteLock::unlock()
 	}
 
 	return true;
+}
+
 }

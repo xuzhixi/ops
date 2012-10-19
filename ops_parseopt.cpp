@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-17 08:19:17
- *  Last   modified:  2012-10-17 08:19:17
+ *  Last   modified:  2012-10-19 17:36:15
  *
  *  Description: 
  */
@@ -17,7 +17,8 @@
 #include <unistd.h>
 #include "OPS_ParseOpt.h"
 
-using OPS::ParseOpt;
+namespace OPS
+{
 
 bool ParseOpt::parse(int argc, char *const argv[], const char *optstring)
 {
@@ -139,3 +140,4 @@ long ParseOpt::getLong(char opt, long defaultValue)
 	}
 }
 
+}

@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-17 08:19:07
- *  Last   modified:  2012-10-17 08:19:07
+ *  Last   modified:  2012-10-19 17:36:05
  *
  *  Description: 
  */
@@ -18,10 +18,8 @@
 #include "OPS_algorithm.h"
 #include "OPS_Mysql.h"
 
-
-using OPS::IDatabase;
-using OPS::Mysql;
-
+namespace OPS
+{
 
 Mysql::Mysql(unsigned int timeout)
 {
@@ -254,3 +252,4 @@ void Mysql::markLastError()
 	KY_LOG_ERROR("mysql#errno: %d errstr: %s", mysql_errno(this->db), mysql_error(this->db));
 }
 
+}

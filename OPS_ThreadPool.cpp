@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-17 08:20:13
- *  Last   modified:  2012-10-17 08:20:13
+ *  Last   modified:  2012-10-19 17:38:21
  *
  *  Description: 
  */
@@ -15,8 +15,8 @@
 #include "OPS_ThreadPool.h"
 #include "OPS_ThreadPoolThread.h"
 
-using OPS::ThreadPool;
-using OPS::ThreadPoolThread;
+namespace OPS
+{
 
 ThreadPool::ThreadPool(size_t size)
 {
@@ -59,4 +59,6 @@ void ThreadPool::stop()
 			this->threads[i].setStop( true );
 		}
 	}
+}
+
 }

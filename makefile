@@ -34,6 +34,7 @@ OBJECTS=\
 	OPS_ParseOpt.o\
 	OPS_ThreadPool.o\
 	OPS_Process.o\
+	OPS_DbConnectPool.o\
 	OPS_ReadWriteLock.o\
 	OPS_UdpSocket.o\
 	OPS_Task.o\
@@ -58,6 +59,7 @@ OBJECTS_DEBUG=\
 	OPS_ParseOpt.od\
 	OPS_ThreadPool.od\
 	OPS_Process.od\
+	OPS_DbConnectPool.od\
 	OPS_ReadWriteLock.od\
 	OPS_UdpSocket.od\
 	OPS_Task.od\
@@ -76,96 +78,194 @@ OBJECTS_DEBUG=\
 	
 all: $(OBJECTS)
 	$(CPP_LINKER) libops.so $(OBJECTS) $(LIBS)
-OPS_Tool.o: ./OPS_Tool.cpp
+OPS_Tool.o: ./OPS_Tool.cpp\
+	./OPS_Mutex.h\
+	./OPS_Process.h\
+	./OPS_Tool.h
 	$(CPP) OPS_Tool.o ./OPS_Tool.cpp
-OPS_Socket.o: ./OPS_Socket.cpp
+OPS_Socket.o: ./OPS_Socket.cpp\
+	./OPS_Socket.h
 	$(CPP) OPS_Socket.o ./OPS_Socket.cpp
-OPS_Mutex.o: ./OPS_Mutex.cpp
+OPS_Mutex.o: ./OPS_Mutex.cpp\
+	./OPS_Mutex.h
 	$(CPP) OPS_Mutex.o ./OPS_Mutex.cpp
-OPS_IDatabase.o: ./OPS_IDatabase.cpp
+OPS_IDatabase.o: ./OPS_IDatabase.cpp\
+	./OPS_IDatabase.h
 	$(CPP) OPS_IDatabase.o ./OPS_IDatabase.cpp
-OPS_Condition.o: ./OPS_Condition.cpp
+OPS_Condition.o: ./OPS_Condition.cpp\
+	./OPS_Mutex.h\
+	./OPS_Condition.h
 	$(CPP) OPS_Condition.o ./OPS_Condition.cpp
-OPS_ThreadPoolThread.o: ./OPS_ThreadPoolThread.cpp
+OPS_ThreadPoolThread.o: ./OPS_ThreadPoolThread.cpp\
+	./OPS_MutexGuard.h\
+	./OPS_ThreadPool.h\
+	./OPS_Condition.h\
+	./OPS_ThreadPoolThread.h\
+	./OPS_IThread.h\
+	./OPS_Mutex.h\
+	./OPS_Task.h\
+	./OPS_PriorityQueue.h
 	$(CPP) OPS_ThreadPoolThread.o ./OPS_ThreadPoolThread.cpp
-OPS_TcpSocket.o: ./OPS_TcpSocket.cpp
+OPS_TcpSocket.o: ./OPS_TcpSocket.cpp\
+	./OPS_TcpSocket.h\
+	./OPS_Socket.h
 	$(CPP) OPS_TcpSocket.o ./OPS_TcpSocket.cpp
-OPS_IThread.o: ./OPS_IThread.cpp
+OPS_IThread.o: ./OPS_IThread.cpp\
+	./OPS_IThread.h
 	$(CPP) OPS_IThread.o ./OPS_IThread.cpp
-OPS_ParseOpt.o: ./OPS_ParseOpt.cpp
+OPS_ParseOpt.o: ./OPS_ParseOpt.cpp\
+	./OPS_ParseOpt.h
 	$(CPP) OPS_ParseOpt.o ./OPS_ParseOpt.cpp
-OPS_ThreadPool.o: ./OPS_ThreadPool.cpp
+OPS_ThreadPool.o: ./OPS_ThreadPool.cpp\
+	./OPS_MutexGuard.h\
+	./OPS_ThreadPool.h\
+	./OPS_Condition.h\
+	./OPS_ThreadPoolThread.h\
+	./OPS_IThread.h\
+	./OPS_Mutex.h\
+	./OPS_Task.h\
+	./OPS_PriorityQueue.h
 	$(CPP) OPS_ThreadPool.o ./OPS_ThreadPool.cpp
-OPS_Process.o: ./OPS_Process.cpp
+OPS_Process.o: ./OPS_Process.cpp\
+	./OPS_Process.h
 	$(CPP) OPS_Process.o ./OPS_Process.cpp
-OPS_ReadWriteLock.o: ./OPS_ReadWriteLock.cpp
+OPS_DbConnectPool.o: ./OPS_DbConnectPool.cpp\
+	./OPS_DbConnectPool.h
+	$(CPP) OPS_DbConnectPool.o ./OPS_DbConnectPool.cpp
+OPS_ReadWriteLock.o: ./OPS_ReadWriteLock.cpp\
+	./OPS_ReadWriteLock.h
 	$(CPP) OPS_ReadWriteLock.o ./OPS_ReadWriteLock.cpp
-OPS_UdpSocket.o: ./OPS_UdpSocket.cpp
+OPS_UdpSocket.o: ./OPS_UdpSocket.cpp\
+	./OPS_UdpSocket.h\
+	./OPS_Socket.h
 	$(CPP) OPS_UdpSocket.o ./OPS_UdpSocket.cpp
-OPS_Task.o: ./OPS_Task.cpp
+OPS_Task.o: ./OPS_Task.cpp\
+	./OPS_Task.h
 	$(CPP) OPS_Task.o ./OPS_Task.cpp
 ky_time.o: ./ky_time.c
 	$(CC) ky_time.o ./ky_time.c
-OPS_TcpServer.o: ./OPS_TcpServer.cpp
+OPS_TcpServer.o: ./OPS_TcpServer.cpp\
+	./OPS_TcpSocket.h\
+	./OPS_TcpServer.h\
+	./OPS_Socket.h
 	$(CPP) OPS_TcpServer.o ./OPS_TcpServer.cpp
-OPS_WlockGuard.o: ./OPS_WlockGuard.cpp
+OPS_WlockGuard.o: ./OPS_WlockGuard.cpp\
+	./OPS_WlockGuard.h\
+	./OPS_ReadWriteLock.h
 	$(CPP) OPS_WlockGuard.o ./OPS_WlockGuard.cpp
-OPS_Mysql.o: ./OPS_Mysql.cpp
+OPS_Mysql.o: ./OPS_Mysql.cpp\
+	./OPS_Mysql.h\
+	./OPS_algorithm.h\
+	./OPS_IDatabase.h
 	$(CPP) OPS_Mysql.o ./OPS_Mysql.cpp
-OPS_RlockGuard.o: ./OPS_RlockGuard.cpp
+OPS_RlockGuard.o: ./OPS_RlockGuard.cpp\
+	./OPS_ReadWriteLock.h\
+	./OPS_RlockGuard.h
 	$(CPP) OPS_RlockGuard.o ./OPS_RlockGuard.cpp
-OPS_MutexGuard.o: ./OPS_MutexGuard.cpp
+OPS_MutexGuard.o: ./OPS_MutexGuard.cpp\
+	./OPS_MutexGuard.h\
+	./OPS_Mutex.h
 	$(CPP) OPS_MutexGuard.o ./OPS_MutexGuard.cpp
 ky_log.o: ./ky_log.c
 	$(CC) ky_log.o ./ky_log.c
-OPS_Semaphore.o: ./OPS_Semaphore.cpp
+OPS_Semaphore.o: ./OPS_Semaphore.cpp\
+	./OPS_Semaphore.h
 	$(CPP) OPS_Semaphore.o ./OPS_Semaphore.cpp
 	
 debug: $(OBJECTS_DEBUG)
 	$(CPP_LINKER_DEBUG) libops.so $(OBJECTS_DEBUG) $(LIBS)
-OPS_Tool.od: ./OPS_Tool.cpp
+OPS_Tool.od: ./OPS_Tool.cpp\
+	./OPS_Mutex.h\
+	./OPS_Process.h\
+	./OPS_Tool.h
 	$(CPP_DEBUG) OPS_Tool.od ./OPS_Tool.cpp
-OPS_Socket.od: ./OPS_Socket.cpp
+OPS_Socket.od: ./OPS_Socket.cpp\
+	./OPS_Socket.h
 	$(CPP_DEBUG) OPS_Socket.od ./OPS_Socket.cpp
-OPS_Mutex.od: ./OPS_Mutex.cpp
+OPS_Mutex.od: ./OPS_Mutex.cpp\
+	./OPS_Mutex.h
 	$(CPP_DEBUG) OPS_Mutex.od ./OPS_Mutex.cpp
-OPS_IDatabase.od: ./OPS_IDatabase.cpp
+OPS_IDatabase.od: ./OPS_IDatabase.cpp\
+	./OPS_IDatabase.h
 	$(CPP_DEBUG) OPS_IDatabase.od ./OPS_IDatabase.cpp
-OPS_Condition.od: ./OPS_Condition.cpp
+OPS_Condition.od: ./OPS_Condition.cpp\
+	./OPS_Mutex.h\
+	./OPS_Condition.h
 	$(CPP_DEBUG) OPS_Condition.od ./OPS_Condition.cpp
-OPS_ThreadPoolThread.od: ./OPS_ThreadPoolThread.cpp
+OPS_ThreadPoolThread.od: ./OPS_ThreadPoolThread.cpp\
+	./OPS_MutexGuard.h\
+	./OPS_ThreadPool.h\
+	./OPS_Condition.h\
+	./OPS_ThreadPoolThread.h\
+	./OPS_IThread.h\
+	./OPS_Mutex.h\
+	./OPS_Task.h\
+	./OPS_PriorityQueue.h
 	$(CPP_DEBUG) OPS_ThreadPoolThread.od ./OPS_ThreadPoolThread.cpp
-OPS_TcpSocket.od: ./OPS_TcpSocket.cpp
+OPS_TcpSocket.od: ./OPS_TcpSocket.cpp\
+	./OPS_TcpSocket.h\
+	./OPS_Socket.h
 	$(CPP_DEBUG) OPS_TcpSocket.od ./OPS_TcpSocket.cpp
-OPS_IThread.od: ./OPS_IThread.cpp
+OPS_IThread.od: ./OPS_IThread.cpp\
+	./OPS_IThread.h
 	$(CPP_DEBUG) OPS_IThread.od ./OPS_IThread.cpp
-OPS_ParseOpt.od: ./OPS_ParseOpt.cpp
+OPS_ParseOpt.od: ./OPS_ParseOpt.cpp\
+	./OPS_ParseOpt.h
 	$(CPP_DEBUG) OPS_ParseOpt.od ./OPS_ParseOpt.cpp
-OPS_ThreadPool.od: ./OPS_ThreadPool.cpp
+OPS_ThreadPool.od: ./OPS_ThreadPool.cpp\
+	./OPS_MutexGuard.h\
+	./OPS_ThreadPool.h\
+	./OPS_Condition.h\
+	./OPS_ThreadPoolThread.h\
+	./OPS_IThread.h\
+	./OPS_Mutex.h\
+	./OPS_Task.h\
+	./OPS_PriorityQueue.h
 	$(CPP_DEBUG) OPS_ThreadPool.od ./OPS_ThreadPool.cpp
-OPS_Process.od: ./OPS_Process.cpp
+OPS_Process.od: ./OPS_Process.cpp\
+	./OPS_Process.h
 	$(CPP_DEBUG) OPS_Process.od ./OPS_Process.cpp
-OPS_ReadWriteLock.od: ./OPS_ReadWriteLock.cpp
+OPS_DbConnectPool.od: ./OPS_DbConnectPool.cpp\
+	./OPS_DbConnectPool.h
+	$(CPP_DEBUG) OPS_DbConnectPool.od ./OPS_DbConnectPool.cpp
+OPS_ReadWriteLock.od: ./OPS_ReadWriteLock.cpp\
+	./OPS_ReadWriteLock.h
 	$(CPP_DEBUG) OPS_ReadWriteLock.od ./OPS_ReadWriteLock.cpp
-OPS_UdpSocket.od: ./OPS_UdpSocket.cpp
+OPS_UdpSocket.od: ./OPS_UdpSocket.cpp\
+	./OPS_UdpSocket.h\
+	./OPS_Socket.h
 	$(CPP_DEBUG) OPS_UdpSocket.od ./OPS_UdpSocket.cpp
-OPS_Task.od: ./OPS_Task.cpp
+OPS_Task.od: ./OPS_Task.cpp\
+	./OPS_Task.h
 	$(CPP_DEBUG) OPS_Task.od ./OPS_Task.cpp
 ky_time.od: ./ky_time.c
 	$(CC_DEBUG) ky_time.od ./ky_time.c
-OPS_TcpServer.od: ./OPS_TcpServer.cpp
+OPS_TcpServer.od: ./OPS_TcpServer.cpp\
+	./OPS_TcpSocket.h\
+	./OPS_TcpServer.h\
+	./OPS_Socket.h
 	$(CPP_DEBUG) OPS_TcpServer.od ./OPS_TcpServer.cpp
-OPS_WlockGuard.od: ./OPS_WlockGuard.cpp
+OPS_WlockGuard.od: ./OPS_WlockGuard.cpp\
+	./OPS_WlockGuard.h\
+	./OPS_ReadWriteLock.h
 	$(CPP_DEBUG) OPS_WlockGuard.od ./OPS_WlockGuard.cpp
-OPS_Mysql.od: ./OPS_Mysql.cpp
+OPS_Mysql.od: ./OPS_Mysql.cpp\
+	./OPS_Mysql.h\
+	./OPS_algorithm.h\
+	./OPS_IDatabase.h
 	$(CPP_DEBUG) OPS_Mysql.od ./OPS_Mysql.cpp
-OPS_RlockGuard.od: ./OPS_RlockGuard.cpp
+OPS_RlockGuard.od: ./OPS_RlockGuard.cpp\
+	./OPS_ReadWriteLock.h\
+	./OPS_RlockGuard.h
 	$(CPP_DEBUG) OPS_RlockGuard.od ./OPS_RlockGuard.cpp
-OPS_MutexGuard.od: ./OPS_MutexGuard.cpp
+OPS_MutexGuard.od: ./OPS_MutexGuard.cpp\
+	./OPS_MutexGuard.h\
+	./OPS_Mutex.h
 	$(CPP_DEBUG) OPS_MutexGuard.od ./OPS_MutexGuard.cpp
 ky_log.od: ./ky_log.c
 	$(CC_DEBUG) ky_log.od ./ky_log.c
-OPS_Semaphore.od: ./OPS_Semaphore.cpp
+OPS_Semaphore.od: ./OPS_Semaphore.cpp\
+	./OPS_Semaphore.h
 	$(CPP_DEBUG) OPS_Semaphore.od ./OPS_Semaphore.cpp
 	
 install:

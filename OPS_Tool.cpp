@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-17 08:20:23
- *  Last   modified:  2012-10-17 08:20:23
+ *  Last   modified:  2012-10-19 17:38:47
  *
  *  Description: 
  */
@@ -20,9 +20,8 @@
 #include "OPS_Process.h"
 #include "OPS_Tool.h"
 
-using OPS::Tool;
-using OPS::Mutex;
-using OPS::Process;
+namespace OPS
+{
 
 Mutex Tool::randMutex;
 
@@ -63,4 +62,6 @@ bool Tool::savePidFile(const char *fileName)
 	fclose(fp);
 
 	return true;
+}
+
 }

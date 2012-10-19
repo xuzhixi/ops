@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-17 08:20:27
- *  Last   modified:  2012-10-17 08:20:27
+ *  Last   modified:  2012-10-19 17:38:57
  *
  *  Description: 
  */
@@ -14,7 +14,8 @@
 
 #include "OPS_UdpSocket.h"
 
-using OPS::UdpSocket;
+namespace OPS
+{
 
 bool UdpSocket::init(const char *ip, unsigned int port, bool block)
 {
@@ -44,4 +45,6 @@ ssize_t UdpSocket::recvfromed(void *buf, size_t bufLen)
 	this->savePeer( addr );
 
 	return result;
+}
+
 }

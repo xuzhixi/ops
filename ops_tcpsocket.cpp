@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-17 08:20:07
- *  Last   modified:  2012-10-17 08:20:07
+ *  Last   modified:  2012-10-19 17:38:10
  *
  *  Description: 
  */
@@ -14,7 +14,8 @@
 
 #include "OPS_TcpSocket.h"
 
-using OPS::TcpSocket;
+namespace OPS
+{
 
 bool TcpSocket::init(const char *ip, unsigned int port, bool block)
 {
@@ -48,4 +49,6 @@ ssize_t TcpSocket::sended(const char *buf, size_t sendLen)
 ssize_t TcpSocket::recved(char *buf, size_t bufLen)
 {
 	return recv(this->getFd(), buf, bufLen, 0);
+}
+
 }
