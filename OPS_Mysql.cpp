@@ -33,10 +33,14 @@ Mysql::Mysql(unsigned int timeout)
 		KY_LOG_ERROR("mysql#unable to allocate database connection state");
 		return;
 	}
+	this->res = NULL;
 	this->setOption( MYSQL_OPT_CONNECT_TIMEOUT, (char *)&timeout );	// 设置 timeout 秒连接超时
 	this->setOption( MYSQL_OPT_RECONNECT, (char *)&reconnect );		// 设置重连
 	//this->setOption( MYSQL_READ_DEFAULT_GROUP, "your_prog_name");	// MySQL 将读取my.cnf文件的[client]和[your_prog_name]部分配置
-	this->res = NULL;
+	//if ( mysql_set_character_set(this->db, "UTF-8") != 0 )		// 设置字符集
+	//{
+	//  this->markLastError();
+	//}
 }
 
 Mysql::~Mysql()
@@ -139,6 +143,11 @@ bool Mysql::select(const char *sql)
 	}
 	// 保存新的结果集
 	this->res = mysql_store_result( this->db );
+	if ( this->res == NULL )
+	{
+		this->markLastError();
+		return false;
+	}
 
 	this->fieldMap.clear();
 	// 建立索引
