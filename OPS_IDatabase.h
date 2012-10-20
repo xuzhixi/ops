@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-17 08:18:46
- *  Last   modified:  2012-10-19 16:17:46
+ *  Last   modified:  2012-10-20 10:39:33
  *
  *  Description: 
  */
@@ -27,6 +27,8 @@ class IDatabase
 {
 	public:
 		virtual ~IDatabase();
+		string getDbName();
+		void setDbName(string dbname);
 		virtual bool connect(const char *host, unsigned int port, const char *user, const char *pwd, const char *dbname) = 0;
 		virtual bool execute(const char *sql) = 0;
 		virtual unsigned long executeId(const char *sql) = 0;
@@ -47,6 +49,7 @@ class IDatabase
 
 	private:
 		static bool isDebug;                   ///< 如果设置为true, 则会打印每句执行的SQL语句
+		string dbName;
 };
 
 }

@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-17 08:20:12
- *  Last   modified:  2012-10-17 08:20:12
+ *  Last   modified:  2012-10-20 11:51:40
  *
  *  Description: 
  */
@@ -35,6 +35,9 @@ class ThreadPool
 		void stop();
 	
 	private:
+		ThreadPool(const ThreadPool &);
+		ThreadPool &operator=(const ThreadPool &);
+
 		size_t size;
 		bool isStart;
 		PriorityQueue<Task *, Task> queue;

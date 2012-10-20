@@ -121,6 +121,9 @@ class PriorityQueue
 		}
 	
 	private:
+		PriorityQueue(const PriorityQueue &);
+		PriorityQueue &operator=(const PriorityQueue &);
+
 		priority_queue<T, vector<T>, Compare> que;
 		size_t maxSize;				// 等于0，表示无队列长度限制
 		Mutex mutex;

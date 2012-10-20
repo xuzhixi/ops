@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-19 17:42:55
- *  Last   modified:  2012-10-20 10:17:08
+ *  Last   modified:  2012-10-20 11:16:39
  *
  *  Description: 
  */
@@ -117,6 +117,9 @@ class Queue
 		}
 	
 	private:
+		Queue(const Queue &);
+		Queue &operator=(const Queue &);
+
 		queue<T> que;
 		size_t maxSize;				// 等于0，表示无队列长度限制
 		Mutex mutex;

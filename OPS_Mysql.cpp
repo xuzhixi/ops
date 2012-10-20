@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-17 08:19:07
- *  Last   modified:  2012-10-19 16:04:47
+ *  Last   modified:  2012-10-20 10:38:41
  *
  *  Description: 
  */
@@ -65,6 +65,7 @@ bool Mysql::connect(const char *host, unsigned int port, const char *user, const
 {
 	if ( mysql_real_connect( this->db, host, user, pwd, dbname, port, 0, 0 ) != NULL )
 	{
+		this->setDbName( dbname );
 		return true;
 	}
 	else
