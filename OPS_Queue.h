@@ -1,39 +1,35 @@
 //===============================================
 /**
- *  @file OPS_PriorityQueue.h
+ *  @file OPS_Queue.h
  *
  *  @author XuZhiXi
  *  Email   932834199@qq.com or 932834199@163.com
  *
- *  Create datetime:  2012-10-17 08:19:20
- *  Last   modified:  2012-10-17 08:19:20
+ *  Create datetime:  2012-10-19 17:42:55
+ *  Last   modified:  2012-10-20 10:17:08
  *
  *  Description: 
  */
 //================================================
 
-#ifndef __OPS_PRIORITYQUEUE_H
-#define __OPS_PRIORITYQUEUE_H
+#ifndef __OPS_Queue_H
+#define __OPS_Queue_H
 
 #include <queue>
-#include <functional>
-#include <vector>
+#include "OPS_Condition.h"
 #include "OPS_Mutex.h"
 #include "OPS_MutexGuard.h"
-#include "OPS_Condition.h"
 
-using std::priority_queue;
-using std::less;
-using std::vector;
+using std::queue;
 
 namespace OPS
 {
 
-template<class T, class Compare = less<T> >
-class PriorityQueue
+template<class T>
+class Queue
 {
 	public:
-		PriorityQueue(size_t maxSize = 0)
+		Queue(size_t maxSize = 0)
 		{
 			this->maxSize = maxSize;
 		}
@@ -79,7 +75,7 @@ class PriorityQueue
 			{
 				this->popCond.wait( this->mutex );
 			}
-			val = this->que.top();
+			val = this->que.front();
 			this->que.pop();
 			this->mutex.unlock();
 			this->pushCond.notifyAll();
@@ -100,7 +96,7 @@ class PriorityQueue
 					return false;
 				}
 			}
-			val = this->que.top();
+			val = this->que.front();
 			this->que.pop();
 			this->mutex.unlock();
 			this->pushCond.notifyAll();
@@ -121,7 +117,7 @@ class PriorityQueue
 		}
 	
 	private:
-		priority_queue<T, vector<T>, Compare> que;
+		queue<T> que;
 		size_t maxSize;				// 等于0，表示无队列长度限制
 		Mutex mutex;
 		Condition pushCond;
@@ -130,4 +126,4 @@ class PriorityQueue
 
 }
 
-#endif // __OPS_PRIORITYQUEUE_H
+#endif // __OPS_Queue_H
