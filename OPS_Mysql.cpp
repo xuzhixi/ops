@@ -6,17 +6,17 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-17 08:19:07
- *  Last   modified:  2012-10-19 17:36:05
+ *  Last   modified:  2012-10-19 16:04:47
  *
  *  Description: 
  */
 //================================================
 
 #include <string>
-#include <algorithm>
 #include "ky_log.h"
 #include "OPS_algorithm.h"
 #include "OPS_Mysql.h"
+#include "OPS_IDbResult.h"
 
 namespace OPS
 {
@@ -31,23 +31,19 @@ Mysql::Mysql(unsigned int timeout)
 		KY_LOG_ERROR("mysql#unable to allocate database connection state");
 		return;
 	}
-	this->res = NULL;
 	this->setOption( MYSQL_OPT_CONNECT_TIMEOUT, (char *)&timeout );	// 设置 timeout 秒连接超时
 	this->setOption( MYSQL_OPT_RECONNECT, (char *)&reconnect );		// 设置重连
 	//this->setOption( MYSQL_READ_DEFAULT_GROUP, "your_prog_name");	// MySQL 将读取my.cnf文件的[client]和[your_prog_name]部分配置
-	//if ( mysql_set_character_set(this->db, "UTF-8") != 0 )		// 设置字符集
+	//if ( mysql_set_character_set(this->db, "UTF-8") != 0 )			// 设置字符集
 	//{
-	//  this->markLastError();
+	//	this->markLastError();
 	//}
 }
 
 Mysql::~Mysql()
 {
 	// 清除结果集
-	if ( this->res != NULL )
-	{
-		mysql_free_result( this->res );
-	}
+	this->dbResult.clearResult();
 	// 关闭数据库连接
 	mysql_close( this->db );
 }
@@ -62,21 +58,6 @@ bool Mysql::setOption(enum mysql_option option, const char *arg)
 	{
 		this->markLastError();
 		return false;
-	}
-}
-
-int Mysql::getFieldIndex(string fieldName)
-{
-	// 统一转为小写
-	std::transform(fieldName.begin(), fieldName.end(), fieldName.begin(), std::tolower);
-	if ( this->fieldMap.find(fieldName) != this->fieldMap.end() )
-	{
-		return this->fieldMap[ fieldName ];
-	}
-	else
-	{
-		KY_LOG_WARN("mysql#can not found fieldName: %s", fieldName.c_str());
-		return -1;
 	}
 }
 
@@ -125,119 +106,52 @@ unsigned long Mysql::executeId(const char *sql)
 
 bool Mysql::select(const char *sql)
 {
-	unsigned int i;
-	unsigned int fieldCount;
-	MYSQL_FIELD *field;
-
 	if ( this->execute(sql) == false )
 	{
 		return false;
 	}
 
-	// 如果结果集不为空，则先将其清空
-	if ( this->res != NULL )
+	this->dbResult.clearResult();
+	return this->saveSelectResult( &(this->dbResult) );
+}
+
+IDbResult *Mysql::selectResult(const char *sql)
+{
+	if ( this->execute(sql) == false )
 	{
-		mysql_free_result( this->res );
-	}
-	// 保存新的结果集
-	this->res = mysql_store_result( this->db );
-	if ( this->res == NULL )
-	{
-		this->markLastError();
-		return false;
+		return NULL;
 	}
 
-	this->fieldMap.clear();
-	// 建立索引
-	fieldCount = mysql_num_fields( this->res );
-	field = mysql_fetch_fields( this->res );
-	for (i=0; i<fieldCount; i++)
+	MysqlResult *dbRes = new MysqlResult();
+	if ( this->saveSelectResult( dbRes ) == true )
 	{
-		this->fieldMap[ field[i].name ] = i;		
+		return dbRes;
 	}
-
-	return true;
+	else
+	{
+		delete dbRes;
+		return NULL;
+	}
 }
 
 bool Mysql::next()
 {
-	if ( this->res != NULL )		// 如果存在结果集
-	{
-		this->row = mysql_fetch_row( this->res );
-		if ( this->row != NULL )	// 如果存在数据记录
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
-
-	KY_LOG_WARN("mysql#res collection is NULL");
-	return false;
+	return this->dbResult.next();
 }
 
 int Mysql::getInt(const char *fieldName)
 {
-	int index;
-	int value = -1;
-
-	index = this->getFieldIndex( fieldName );
-	if ( index != -1 )		// 如果找到索引
-	{
-		if ( this->row[index] != NULL )		// 索引对应的值不为NULL
-		{
-			value = atoi( this->row[index] );
-		}
-		else
-		{
-			value = 0;
-		}
-	}
-
-	return value;
+	return this->dbResult.getInt( fieldName );
 }
 
 long Mysql::getLong(const char *fieldName)
 {
-	int index;
-	long value = -1;
-
-	index = this->getFieldIndex( fieldName );
-	if ( index != -1 )		// 如果找到索引
-	{
-		if ( this->row[index] != NULL )		// 索引对应的值不为NULL
-		{
-			value = atol( this->row[index] );
-		}
-		else
-		{
-			value = 0;
-		}
-	}
-
-	return value;
+	return this->dbResult.getLong( fieldName );
 }
 
 string Mysql::getString(const char *fieldName)
 {
-	int index;
-
-	index = this->getFieldIndex( fieldName );
-	if ( index != -1 )		// 如果找到索引
-	{
-		if ( this->row[index] != NULL )		// 索引对应的值不为NULL
-		{
-			return string( this->row[index] );
-		}
-		else
-		{
-			return string("NULL");
-		}
-	}
-
-	return string("ERROR");
+	return this->dbResult.getString( fieldName );
 }
 
 unsigned long Mysql::getAffectedRows()
@@ -246,6 +160,31 @@ unsigned long Mysql::getAffectedRows()
 }
 
 // protected
+
+bool Mysql::saveSelectResult(MysqlResult *result)
+{
+	unsigned int i;
+	unsigned int fieldCount;
+	MYSQL_FIELD *field;
+
+	// 保存结果集
+	result->res = mysql_store_result( this->db );
+	if ( result->res == NULL )
+	{
+		this->markLastError();
+		return false;
+	}
+
+	// 建立索引
+	fieldCount = mysql_num_fields( result->res );
+	field = mysql_fetch_fields( result->res );
+	for (i=0; i<fieldCount; i++)
+	{
+		result->fieldMap[ field[i].name ] = i;		
+	}
+
+	return true;
+}
 
 void Mysql::markLastError()
 {

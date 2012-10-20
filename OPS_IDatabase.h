@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-17 08:18:46
- *  Last   modified:  2012-10-17 08:18:46
+ *  Last   modified:  2012-10-19 16:17:46
  *
  *  Description: 
  */
@@ -21,6 +21,7 @@ using std::string;
 
 namespace OPS 
 {
+class IDbResult;
 
 class IDatabase
 {
@@ -30,6 +31,7 @@ class IDatabase
 		virtual bool execute(const char *sql) = 0;
 		virtual unsigned long executeId(const char *sql) = 0;
 		virtual bool select(const char *sql) = 0;
+		virtual IDbResult *selectResult(const char *sql) = 0;
 		virtual bool next() = 0;
 		virtual int  getInt(const char *fieldName) = 0;
 		virtual long getLong(const char *fieldName) = 0;
