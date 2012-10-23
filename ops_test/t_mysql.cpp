@@ -10,7 +10,7 @@ int main()
 	Mysql my;
 	IDatabase *db = &my;		
 
-	if ( db->connect("192.168.136.1", 3306, "root", "2185530", "test") )
+	if ( db->connect("test", "192.168.136.1", 3306, "root", "2185530") )
 	{
 		printf("autoId: %d\n", db->executeId("insert into user(name, age) values('ktv', 25)"));
 		printf("affected rows: %ld\n", db->getAffectedRows());

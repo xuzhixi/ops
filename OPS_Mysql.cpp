@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-17 08:19:07
- *  Last   modified:  2012-10-20 10:38:41
+ *  Last   modified:  2012-10-23 19:19:58
  *
  *  Description: 
  */
@@ -61,9 +61,9 @@ bool Mysql::setOption(enum mysql_option option, const char *arg)
 	}
 }
 
-bool Mysql::connect(const char *host, unsigned int port, const char *user, const char *pwd, const char *dbname)
+bool Mysql::connect(string dbname, string host, unsigned int port, string user, string pwd)
 {
-	if ( mysql_real_connect( this->db, host, user, pwd, dbname, port, 0, 0 ) != NULL )
+	if ( mysql_real_connect( this->db, host.c_str(), user.c_str(), pwd.c_str(), dbname.c_str(), port, 0, 0 ) != NULL )
 	{
 		this->setDbName( dbname );
 		return true;
@@ -77,7 +77,7 @@ bool Mysql::connect(const char *host, unsigned int port, const char *user, const
 
 bool Mysql::execute(const char *sql)
 {
-	if ( IDatabase::getIsDebug() )
+	if ( IDatabase::getIsShowSql() )
 	{
 		this->markSql( sql );
 	}

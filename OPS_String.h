@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-23 14:34:06
- *  Last   modified:  2012-10-23 14:48:18
+ *  Last   modified:  2012-10-23 15:09:25
  *
  *  Description: 
  */
@@ -25,6 +25,8 @@ namespace OPS
 class String
 {
 	public:
+		static string toLower(string str);
+		static string toUpper(string str);
 		static int	  toInt(string str);
 		static long	  toLong(string str);
 		static double toDouble(string str);

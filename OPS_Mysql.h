@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-17 08:19:07
- *  Last   modified:  2012-10-20 10:38:46
+ *  Last   modified:  2012-10-23 18:57:50
  *
  *  Description: 
  */
@@ -32,7 +32,7 @@ class Mysql : public IDatabase
 		Mysql(unsigned int timeout = 5);	// 默认5秒连接超时
 		~Mysql();
 		bool setOption(enum mysql_option option, const char *arg);
-		bool connect(const char *host, unsigned int port, const char *user, const char *pwd, const char *dbname);
+		bool connect(string dbname, string host, unsigned int port, string user, string pwd);
 		bool execute(const char *sql);
 		unsigned long executeId(const char *sql);
 		bool select(const char *sql);

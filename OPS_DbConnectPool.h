@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-19 17:23:01
- *  Last   modified:  2012-10-22 18:46:00
+ *  Last   modified:  2012-10-23 20:31:02
  *
  *  Description: 
  */
@@ -32,12 +32,16 @@ class DbConnectPool
 	public:
 		~DbConnectPool();
 		bool load(const char *fileName);				// 载入配置文件
-		bool reload(const char *fileName);				// 重新载入配置文件
-		IDatabase *getConnect(string dbName);			// 获取一个数据库连接
-		bool release(IDatabase *&db);					// 释放一个数据库连接	
+		IDatabase *getConnect(string poolName);			// 获取一个数据库连接
+		bool release(IDatabase *&db, string name="");	// 释放一个数据库连接	
 		
 		static DbConnectPool *getInstance();			// 获取单例
 	
+	protected:
+		bool hasProperty(map<string,string> &pMap, string name);	// pMap中是存在键名name, 是返回true, 否则返回false
+		Queue<IDatabase *> *getPoolQueue(string poolName);			// 获取一个连接池队列
+		void clear();									// 清除数据库连接池
+
 	private:
 		DbConnectPool();
 		DbConnectPool(const DbConnectPool &);
@@ -46,6 +50,7 @@ class DbConnectPool
 		static Mutex mutex;
 		static volatile DbConnectPool *instance;
 
+		Mutex dbMapsMutex;
 		map<string, Queue<IDatabase *> *> dbMaps;
 };
 

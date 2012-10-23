@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-23 14:33:20
- *  Last   modified:  2012-10-23 14:52:55
+ *  Last   modified:  2012-10-23 15:10:15
  *
  *  Description: 
  */
@@ -22,6 +22,18 @@ using std::stringstream;
 
 namespace OPS
 {
+
+		string String::toLower(string str)
+		{
+			std::transform(str.begin(), str.end(), str.begin(), ::tolower);
+			return str;
+		}
+
+		string String::toUpper(string str)
+		{
+			std::transform(str.begin(), str.end(), str.begin(), ::toupper);
+			return str;
+		}
 
 		int String::toInt(string str)
 		{

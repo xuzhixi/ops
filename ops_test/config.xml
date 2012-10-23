@@ -3,19 +3,19 @@
 <connect>
 	<!-- global property -->
 	<!-- Echo all executed SQL to stdout -->
-	<property name="show_sql" value="true" />
+	<property name="show_sql" value="false" />
 
-	<pool name="master">
-		<property name="size" value="10" />
+	<pool name="test">
+		<property name="size" value="1" />
 		<property name="dbtype" value="mysql" />
-		<property name="dbname" value="game_rooms" />
-		<property name="host" value="192.168.203.1" />		
-		<property name="port" value="8888" />
+		<property name="dbname" value="test" />
+		<property name="host" value="192.168.136.1" />		
+		<property name="port" value="3306" />
 		<property name="username" value="root" />
-		<property name="password" value="123456" />
+		<property name="password" value="2185530" />
 	</pool>
 
-	<pool name="从库(slave)">
+	<pool name="slave">
 	</pool>
 </connect>
 

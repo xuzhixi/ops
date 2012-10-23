@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-17 08:18:46
- *  Last   modified:  2012-10-20 10:39:33
+ *  Last   modified:  2012-10-23 19:19:50
  *
  *  Description: 
  */
@@ -29,7 +29,7 @@ class IDatabase
 		virtual ~IDatabase();
 		string getDbName();
 		void setDbName(string dbname);
-		virtual bool connect(const char *host, unsigned int port, const char *user, const char *pwd, const char *dbname) = 0;
+		virtual bool connect(string dbname, string host, unsigned int port, string user, string pwd) = 0;
 		virtual bool execute(const char *sql) = 0;
 		virtual unsigned long executeId(const char *sql) = 0;
 		virtual bool select(const char *sql) = 0;
@@ -40,15 +40,15 @@ class IDatabase
 		virtual string getString(const char *fieldName) = 0;
 		virtual unsigned long getAffectedRows() = 0;
 
-		static bool getIsDebug();
-		static void setIsDebug(bool isDebug);
+		static bool getIsShowSql();
+		static void setIsShowSql(bool isshow);
 	
 	protected:
 		virtual void markLastError() = 0;
 		void markSql(const char *sql);
 
 	private:
-		static bool isDebug;                   ///< 如果设置为true, 则会打印每句执行的SQL语句
+		static bool isShow;                   ///< 如果设置为true, 则会打印每句执行的SQL语句
 		string dbName;
 };
 
