@@ -33,6 +33,7 @@ OBJECTS=\
 	OPS_Process.o\
 	OPS_DbConnectPool.o\
 	ops_readwritelock.o\
+	OPS_XmlNode.o\
 	ops_tcpsocket.o\
 	ops_semaphore.o\
 	ops_parseopt.o\
@@ -45,6 +46,7 @@ OBJECTS=\
 	ops_rlockguard.o\
 	OPS_MysqlResult.o\
 	ops_mutexguard.o\
+	OPS_XmlDocument.o\
 	OPS_Mysql.o\
 	ops_condition.o\
 	ky_log.o\
@@ -60,6 +62,7 @@ OBJECTS_DEBUG=\
 	OPS_Process.od\
 	OPS_DbConnectPool.od\
 	ops_readwritelock.od\
+	OPS_XmlNode.od\
 	ops_tcpsocket.od\
 	ops_semaphore.od\
 	ops_parseopt.od\
@@ -72,6 +75,7 @@ OBJECTS_DEBUG=\
 	ops_rlockguard.od\
 	OPS_MysqlResult.od\
 	ops_mutexguard.od\
+	OPS_XmlDocument.od\
 	OPS_Mysql.od\
 	ops_condition.od\
 	ky_log.od\
@@ -122,11 +126,18 @@ OPS_Process.o: ./OPS_Process.cpp\
 	./OPS_Process.h
 	$(CPP) OPS_Process.o ./OPS_Process.cpp
 OPS_DbConnectPool.o: ./OPS_DbConnectPool.cpp\
-	./OPS_DbConnectPool.h
+	./OPS_MutexGuard.h\
+	./OPS_DbConnectPool.h\
+	./OPS_Mutex.h\
+	./OPS_IDatabase.h\
+	./OPS_Queue.h
 	$(CPP) OPS_DbConnectPool.o ./OPS_DbConnectPool.cpp
 ops_readwritelock.o: ./ops_readwritelock.cpp\
 	./OPS_ReadWriteLock.h
 	$(CPP) ops_readwritelock.o ./ops_readwritelock.cpp
+OPS_XmlNode.o: ./OPS_XmlNode.cpp\
+	./OPS_XmlNode.h
+	$(CPP) OPS_XmlNode.o ./OPS_XmlNode.cpp
 ops_tcpsocket.o: ./ops_tcpsocket.cpp\
 	./OPS_TcpSocket.h\
 	./OPS_Socket.h
@@ -167,6 +178,10 @@ ops_mutexguard.o: ./ops_mutexguard.cpp\
 	./OPS_MutexGuard.h\
 	./OPS_Mutex.h
 	$(CPP) ops_mutexguard.o ./ops_mutexguard.cpp
+OPS_XmlDocument.o: ./OPS_XmlDocument.cpp\
+	./OPS_XmlNode.h\
+	./OPS_XmlDocument.h
+	$(CPP) OPS_XmlDocument.o ./OPS_XmlDocument.cpp
 OPS_Mysql.o: ./OPS_Mysql.cpp\
 	./OPS_IDbResult.h\
 	./OPS_Mysql.h\
@@ -222,11 +237,18 @@ OPS_Process.od: ./OPS_Process.cpp\
 	./OPS_Process.h
 	$(CPP_DEBUG) OPS_Process.od ./OPS_Process.cpp
 OPS_DbConnectPool.od: ./OPS_DbConnectPool.cpp\
-	./OPS_DbConnectPool.h
+	./OPS_MutexGuard.h\
+	./OPS_DbConnectPool.h\
+	./OPS_Mutex.h\
+	./OPS_IDatabase.h\
+	./OPS_Queue.h
 	$(CPP_DEBUG) OPS_DbConnectPool.od ./OPS_DbConnectPool.cpp
 ops_readwritelock.od: ./ops_readwritelock.cpp\
 	./OPS_ReadWriteLock.h
 	$(CPP_DEBUG) ops_readwritelock.od ./ops_readwritelock.cpp
+OPS_XmlNode.od: ./OPS_XmlNode.cpp\
+	./OPS_XmlNode.h
+	$(CPP_DEBUG) OPS_XmlNode.od ./OPS_XmlNode.cpp
 ops_tcpsocket.od: ./ops_tcpsocket.cpp\
 	./OPS_TcpSocket.h\
 	./OPS_Socket.h
@@ -267,6 +289,10 @@ ops_mutexguard.od: ./ops_mutexguard.cpp\
 	./OPS_MutexGuard.h\
 	./OPS_Mutex.h
 	$(CPP_DEBUG) ops_mutexguard.od ./ops_mutexguard.cpp
+OPS_XmlDocument.od: ./OPS_XmlDocument.cpp\
+	./OPS_XmlNode.h\
+	./OPS_XmlDocument.h
+	$(CPP_DEBUG) OPS_XmlDocument.od ./OPS_XmlDocument.cpp
 OPS_Mysql.od: ./OPS_Mysql.cpp\
 	./OPS_IDbResult.h\
 	./OPS_Mysql.h\

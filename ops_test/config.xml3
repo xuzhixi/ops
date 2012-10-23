@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<config>
+	<color>
+		<pink>0.2</pink>
+		<green>0.1</green>
+		<blue>0.1</blue>
+		<alpha>1.0</alpha>
+	</color>
+	<Size value="18">
+		<x>640</x>
+		<y>480</y>
+	</Size>
+	<mode fullscreen="false">testMode</mode>
+</config>
+

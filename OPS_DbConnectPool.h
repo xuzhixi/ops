@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-19 17:23:01
- *  Last   modified:  2012-10-20 15:17:40
+ *  Last   modified:  2012-10-22 18:46:00
  *
  *  Description: 
  */
@@ -31,8 +31,8 @@ class DbConnectPool
 {
 	public:
 		~DbConnectPool();
-		bool loadConfig(string fileName);				// 载入配置文件
-		bool reloadCofig(string fileName);				// 重新载入配置文件
+		bool load(const char *fileName);				// 载入配置文件
+		bool reload(const char *fileName);				// 重新载入配置文件
 		IDatabase *getConnect(string dbName);			// 获取一个数据库连接
 		bool release(IDatabase *&db);					// 释放一个数据库连接	
 		
