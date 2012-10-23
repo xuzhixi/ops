@@ -50,6 +50,7 @@ OBJECTS=\
 	OPS_Mysql.o\
 	ky_log.o\
 	ops_condition.o\
+	OPS_String.o\
 	OPS_DbConnectPool.o\
 	
 OBJECTS_DEBUG=\
@@ -80,6 +81,7 @@ OBJECTS_DEBUG=\
 	OPS_Mysql.od\
 	ky_log.od\
 	ops_condition.od\
+	OPS_String.od\
 	OPS_DbConnectPool.od\
 	
 ################################################################################
@@ -192,6 +194,9 @@ ky_log.o: ./ky_log.c
 ops_condition.o: ./ops_condition.cpp\
 	./OPS_Mutex.h
 	$(CPP) ops_condition.o ./ops_condition.cpp
+OPS_String.o: ./OPS_String.cpp\
+	./OPS_String.h
+	$(CPP) OPS_String.o ./OPS_String.cpp
 OPS_DbConnectPool.o: ./OPS_DbConnectPool.cpp\
 	./OPS_MutexGuard.h\
 	./OPS_DbConnectPool.h\
@@ -308,6 +313,9 @@ ky_log.od: ./ky_log.c
 ops_condition.od: ./ops_condition.cpp\
 	./OPS_Mutex.h
 	$(CPP_DEBUG) ops_condition.od ./ops_condition.cpp
+OPS_String.od: ./OPS_String.cpp\
+	./OPS_String.h
+	$(CPP_DEBUG) OPS_String.od ./OPS_String.cpp
 OPS_DbConnectPool.od: ./OPS_DbConnectPool.cpp\
 	./OPS_MutexGuard.h\
 	./OPS_DbConnectPool.h\
