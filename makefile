@@ -31,7 +31,7 @@ OBJECTS=\
 	ops_udpsocket.o\
 	OPS_ThreadPool.o\
 	OPS_Process.o\
-	OPS_DbConnectPool.o\
+	OPS_ParseIni.o\
 	ops_readwritelock.o\
 	OPS_XmlNode.o\
 	ops_tcpsocket.o\
@@ -48,8 +48,9 @@ OBJECTS=\
 	ops_mutexguard.o\
 	OPS_XmlDocument.o\
 	OPS_Mysql.o\
-	ops_condition.o\
 	ky_log.o\
+	ops_condition.o\
+	OPS_DbConnectPool.o\
 	
 OBJECTS_DEBUG=\
 	ops_tcpserver.od\
@@ -60,7 +61,7 @@ OBJECTS_DEBUG=\
 	ops_udpsocket.od\
 	OPS_ThreadPool.od\
 	OPS_Process.od\
-	OPS_DbConnectPool.od\
+	OPS_ParseIni.od\
 	ops_readwritelock.od\
 	OPS_XmlNode.od\
 	ops_tcpsocket.od\
@@ -77,8 +78,9 @@ OBJECTS_DEBUG=\
 	ops_mutexguard.od\
 	OPS_XmlDocument.od\
 	OPS_Mysql.od\
-	ops_condition.od\
 	ky_log.od\
+	ops_condition.od\
+	OPS_DbConnectPool.od\
 	
 ################################################################################
 ### Project Files ##############################################################
@@ -125,13 +127,9 @@ OPS_ThreadPool.o: ./OPS_ThreadPool.cpp\
 OPS_Process.o: ./OPS_Process.cpp\
 	./OPS_Process.h
 	$(CPP) OPS_Process.o ./OPS_Process.cpp
-OPS_DbConnectPool.o: ./OPS_DbConnectPool.cpp\
-	./OPS_MutexGuard.h\
-	./OPS_DbConnectPool.h\
-	./OPS_Mutex.h\
-	./OPS_IDatabase.h\
-	./OPS_Queue.h
-	$(CPP) OPS_DbConnectPool.o ./OPS_DbConnectPool.cpp
+OPS_ParseIni.o: ./OPS_ParseIni.cpp\
+	./OPS_ParseIni.h
+	$(CPP) OPS_ParseIni.o ./OPS_ParseIni.cpp
 ops_readwritelock.o: ./ops_readwritelock.cpp\
 	./OPS_ReadWriteLock.h
 	$(CPP) ops_readwritelock.o ./ops_readwritelock.cpp
@@ -189,11 +187,20 @@ OPS_Mysql.o: ./OPS_Mysql.cpp\
 	./OPS_IDatabase.h\
 	./OPS_MysqlResult.h
 	$(CPP) OPS_Mysql.o ./OPS_Mysql.cpp
+ky_log.o: ./ky_log.c
+	$(CC) ky_log.o ./ky_log.c
 ops_condition.o: ./ops_condition.cpp\
 	./OPS_Mutex.h
 	$(CPP) ops_condition.o ./ops_condition.cpp
-ky_log.o: ./ky_log.c
-	$(CC) ky_log.o ./ky_log.c
+OPS_DbConnectPool.o: ./OPS_DbConnectPool.cpp\
+	./OPS_MutexGuard.h\
+	./OPS_DbConnectPool.h\
+	./OPS_XmlDocument.h\
+	./OPS_XmlNode.h\
+	./OPS_Mutex.h\
+	./OPS_IDatabase.h\
+	./OPS_Queue.h
+	$(CPP) OPS_DbConnectPool.o ./OPS_DbConnectPool.cpp
 	
 debug: $(OBJECTS_DEBUG)
 	$(CPP_LINKER_DEBUG) libops.so $(OBJECTS_DEBUG) $(LIBS)
@@ -236,13 +243,9 @@ OPS_ThreadPool.od: ./OPS_ThreadPool.cpp\
 OPS_Process.od: ./OPS_Process.cpp\
 	./OPS_Process.h
 	$(CPP_DEBUG) OPS_Process.od ./OPS_Process.cpp
-OPS_DbConnectPool.od: ./OPS_DbConnectPool.cpp\
-	./OPS_MutexGuard.h\
-	./OPS_DbConnectPool.h\
-	./OPS_Mutex.h\
-	./OPS_IDatabase.h\
-	./OPS_Queue.h
-	$(CPP_DEBUG) OPS_DbConnectPool.od ./OPS_DbConnectPool.cpp
+OPS_ParseIni.od: ./OPS_ParseIni.cpp\
+	./OPS_ParseIni.h
+	$(CPP_DEBUG) OPS_ParseIni.od ./OPS_ParseIni.cpp
 ops_readwritelock.od: ./ops_readwritelock.cpp\
 	./OPS_ReadWriteLock.h
 	$(CPP_DEBUG) ops_readwritelock.od ./ops_readwritelock.cpp
@@ -300,11 +303,20 @@ OPS_Mysql.od: ./OPS_Mysql.cpp\
 	./OPS_IDatabase.h\
 	./OPS_MysqlResult.h
 	$(CPP_DEBUG) OPS_Mysql.od ./OPS_Mysql.cpp
+ky_log.od: ./ky_log.c
+	$(CC_DEBUG) ky_log.od ./ky_log.c
 ops_condition.od: ./ops_condition.cpp\
 	./OPS_Mutex.h
 	$(CPP_DEBUG) ops_condition.od ./ops_condition.cpp
-ky_log.od: ./ky_log.c
-	$(CC_DEBUG) ky_log.od ./ky_log.c
+OPS_DbConnectPool.od: ./OPS_DbConnectPool.cpp\
+	./OPS_MutexGuard.h\
+	./OPS_DbConnectPool.h\
+	./OPS_XmlDocument.h\
+	./OPS_XmlNode.h\
+	./OPS_Mutex.h\
+	./OPS_IDatabase.h\
+	./OPS_Queue.h
+	$(CPP_DEBUG) OPS_DbConnectPool.od ./OPS_DbConnectPool.cpp
 	
 install:
 	echo 'install command not set'

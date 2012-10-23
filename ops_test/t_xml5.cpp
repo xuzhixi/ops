@@ -9,7 +9,7 @@ int main()
 {
 	XmlDocument doc;
 
-	doc.parse("<?xml version='1.0' encoding='utf-8' ?><command><user>abc</user><pwd>123</pwd></command>");
+	doc.parse("<?xml version='1.0' encoding='utf-8' ?><command><user>abc</user><pwd>密码</pwd></command>");
 	//doc.parse("<command><user>abc</user><pwd>123</pwd></command>");
 
 	//char a[] = "<command><user>abc</user><pwd>123</pwd></command>";

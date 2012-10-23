@@ -15,7 +15,7 @@
 		<property name="password" value="123456" />
 	</pool>
 
-	<pool name="slave">
+	<pool name="从库(slave)">
 	</pool>
 </connect>
 
