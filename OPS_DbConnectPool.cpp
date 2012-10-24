@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-19 17:23:03
- *  Last   modified:  2012-10-23 20:31:06
+ *  Last   modified:  2012-10-24 15:43:05
  *
  *  Description: 
  */
@@ -126,7 +126,7 @@ namespace OPS
 		if ( que != NULL )
 		{
 			IDatabase *db = NULL;
-			this->dbMaps[poolName]->pop( db );
+			que->pop( db );
 			return db;
 		}
 		else
@@ -152,7 +152,7 @@ namespace OPS
 		que = this->getPoolQueue( poolName );
 		if ( que != NULL )
 		{
-			this->dbMaps[poolName]->push( db );
+			que->push( db );
 			db = NULL;
 			return true;
 		}
