@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-17 08:20:06
- *  Last   modified:  2012-10-17 08:20:06
+ *  Last   modified:  2012-10-23 22:47:10
  *
  *  Description: 
  */
@@ -24,9 +24,9 @@ class TcpSocket : public Socket
 {
 	public:
 		bool init(const char *ip, unsigned int port, bool block);
-		bool connected(const char *ip, unsigned int port);
-		ssize_t sended(const char *buf, size_t sendLen);
-		ssize_t recved(char *buf, size_t bufLen);
+		bool connect(const char *ip, unsigned int port);
+		ssize_t send(const char *buf, size_t sendLen);
+		ssize_t recv(char *buf, size_t bufLen);
 };
 
 }

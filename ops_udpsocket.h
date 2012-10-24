@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-17 08:20:26
- *  Last   modified:  2012-10-17 08:20:26
+ *  Last   modified:  2012-10-23 22:48:48
  *
  *  Description: 
  */
@@ -24,8 +24,8 @@ class UdpSocket : public Socket
 {
 	public:
 		bool init(const char *ip, unsigned int port, bool block);
-		ssize_t sendtoed(const char *ip, unsigned int port, const void *buf, size_t sendLen);
-		ssize_t recvfromed(void *buf, size_t bufLen);
+		ssize_t sendto(const char *ip, unsigned int port, const void *buf, size_t sendLen);
+		ssize_t recvfrom(void *buf, size_t bufLen);
 };
 
 }

@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-17 08:20:00
- *  Last   modified:  2012-10-17 08:20:00
+ *  Last   modified:  2012-10-23 22:47:56
  *
  *  Description: 
  */
@@ -23,8 +23,8 @@ namespace OPS
 class TcpServer : public TcpSocket
 {
 	public:
-		bool listened(int maxWaitCount);
-		bool accepted(TcpSocket &client, bool block);
+		bool listen(int maxWaitCount);
+		bool accept(TcpSocket &client, bool block);
 };
 
 }

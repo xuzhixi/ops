@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-17 08:19:43
- *  Last   modified:  2012-10-17 08:19:44
+ *  Last   modified:  2012-10-23 22:46:40
  *
  *  Description: 
  */
@@ -34,7 +34,7 @@ class Socket
 {
 	public:
 		bool init(const char *ip, unsigned int port, int type, bool block);
-		bool closed();
+		bool close();
 		void setFd(int fd);
 		int getFd();
 		const char *getLocalIp();

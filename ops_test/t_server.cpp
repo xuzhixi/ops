@@ -1,3 +1,17 @@
+//===============================================
+/**
+ *  @file t_server.cpp
+ *
+ *  @author XuZhiXi
+ *  Email   932834199@qq.com or 932834199@163.com
+ *
+ *  Create datetime:  2012-10-23 22:49:41
+ *  Last   modified:  2012-10-23 22:49:41
+ *
+ *  Description: 
+ */
+//================================================
+
 #include "ky_log.h"
 #include "OPS_TcpServer.h"
 #include "OPS_TcpSocket.h"
@@ -10,25 +24,23 @@ int main()
 	TcpServer server;
 	TcpSocket client;
 
-	ky_log_open_default("stdout", "a", KY_LOG_LEVEL_ALL, 0, 0);
 	if (server.init(SOCKET_ADDR_ANY, 8080, true) == false)
 	{
 		return -1;	
 	}
-	if (server.listened(1000) == false)
+	if (server.listen(1000) == false)
 	{
 		return -1;
 	}
 
 	while (1)
 	{
-		if ( server.accepted(client, true) )
+		if ( server.accept(client, true) )
 		{
 			KY_LOG_INFO("peerIp: %s peerPort: %d", client.getPeerIp(), client.getPeerPort());
-			client.closed();
+			client.clos();
 		}
 	}
-	ky_log_close_default();
 
 	return 0;
 }

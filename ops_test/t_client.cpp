@@ -1,3 +1,17 @@
+//===============================================
+/**
+ *  @file t_client.cpp
+ *
+ *  @author XuZhiXi
+ *  Email   932834199@qq.com or 932834199@163.com
+ *
+ *  Create datetime:  2012-10-23 22:49:56
+ *  Last   modified:  2012-10-23 22:49:56
+ *
+ *  Description: 
+ */
+//================================================
+
 #include "ky_log.h"
 #include "OPS_TcpSocket.h"
 
@@ -9,27 +23,25 @@ int main()
 	char buf[100];
 	ssize_t recvSize;
 
-	ky_log_open_default("stdout", "a", KY_LOG_LEVEL_ALL, 0, 0);
 	if (client.init(SOCKET_ADDR_ANY, SOCKET_PORT_ANY, true) == false)
 	{
 		return -1;
 	}
-	if ( client.connected("192.168.136.132", 8080) == false )
+	if ( client.connect("192.168.136.132", 8080) == false )
 	{
 		return -1;
 	}
 	
 	while (1)
 	{
-		recvSize = client.recved(buf, 100);
+		recvSize = client.recv(buf, 100);
 		if ( recvSize == 0 )
 		{
 			KY_LOG_INFO("close connect,localIp: %s localPort: %d", client.getLocalIp(), client.getLocalPort());
-			client.closed();
+			client.clos();
 			break;
 		}
 	}
-	ky_log_close_default();
 
 	return 0;
 }
