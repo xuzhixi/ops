@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-17 08:20:01
- *  Last   modified:  2012-10-23 22:48:32
+ *  Last   modified:  2012-10-25 09:43:23
  *
  *  Description: 
  */
@@ -60,6 +60,19 @@ bool TcpServer::accept(TcpSocket &client, bool block)
 	client.savePeer( addr );
 
 	return true;
+}
+
+TcpSocket *TcpServer::accept(bool block)
+{
+	TcpSocket *sk = new TcpSocket();
+
+	if ( this->accept(*sk, block) )
+	{
+		return sk;
+	}
+
+	delete sk;
+	return NULL;
 }
 
 }

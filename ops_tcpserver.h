@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-17 08:20:00
- *  Last   modified:  2012-10-23 22:47:56
+ *  Last   modified:  2012-10-25 09:44:08
  *
  *  Description: 
  */
@@ -24,7 +24,11 @@ class TcpServer : public TcpSocket
 {
 	public:
 		bool listen(int maxWaitCount);
-		bool accept(TcpSocket &client, bool block);
+		bool accept(TcpSocket &client, bool block=true);
+		/**
+		 * @brief 成功返回一个TcpSocket连接(这个对象在不需要的时候，要手动delete)，否则返回NULL
+		 */
+		TcpSocket *accept(bool block=true);
 };
 
 }
