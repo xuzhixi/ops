@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-23 22:49:41
- *  Last   modified:  2012-10-25 15:55:31
+ *  Last   modified:  2012-10-25 23:48:48
  *
  *  Description: 
  */
@@ -53,6 +53,7 @@ class TServer
 			while ( (client=svr->accept(false)) != NULL )
 			{
 				rat->add(client, Reactor::IN, TServer::readyRead);
+				rat->add(client, Reactor::OUT, TServer::readyWrite);
 				KY_LOG_INFO("coming connect socket(%d) peerIp: %s peerPort: %d", client->getFd(), client->getPeerIp(), client->getPeerPort());
 			}
 
@@ -80,7 +81,7 @@ class TServer
 					socket->close();
 					rat->delOwn( socket );
 					delete socket;
-					//break; bug
+					break;
 				}
 				else
 				{
@@ -89,11 +90,16 @@ class TServer
 						KY_LOG_ERROR("socket recv happen error, already close fd=%d", socket->getFd());
 						socket->close();
 						rat->delOwn( socket );
-						//delete socket;
+						delete socket;
 					}
 					break;
 				}
 			}
+		}
+
+		static void readyWrite(Socket *sk, Reactor *rat)
+		{
+			KY_LOG_INFO("readyWrite socket(%d)", sk->getFd());
 		}
 
 		TcpServer server;	

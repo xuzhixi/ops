@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-17 08:19:47
- *  Last   modified:  2012-10-25 15:58:47
+ *  Last   modified:  2012-10-25 23:51:27
  *
  *  Description: 
  */
@@ -81,6 +81,7 @@ bool Socket::close()
 	}
 	else
 	{
+		KY_LOG_ERROR("close socket(%d) error", this->fd);
 		return false;
 	}
 }

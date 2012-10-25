@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-17 08:20:01
- *  Last   modified:  2012-10-25 09:43:23
+ *  Last   modified:  2012-10-25 23:53:35
  *
  *  Description: 
  */
@@ -51,7 +51,7 @@ bool TcpServer::accept(TcpSocket &client, bool block)
 		// 设置为非阻塞
 		if ( Socket::setNonblock(fd) == false )
 		{
-			::close(fd);
+			this->close();
 			return false;
 		}
 	}
