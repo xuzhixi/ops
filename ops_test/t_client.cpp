@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-23 22:49:56
- *  Last   modified:  2012-10-23 22:49:56
+ *  Last   modified:  2012-10-25 13:19:10
  *
  *  Description: 
  */
@@ -38,7 +38,7 @@ int main()
 		if ( recvSize == 0 )
 		{
 			KY_LOG_INFO("close connect,localIp: %s localPort: %d", client.getLocalIp(), client.getLocalPort());
-			client.clos();
+			client.close();
 			break;
 		}
 	}

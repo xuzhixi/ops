@@ -6,12 +6,14 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-17 08:20:07
- *  Last   modified:  2012-10-23 22:47:33
+ *  Last   modified:  2012-10-25 13:18:58
  *
  *  Description: 
  */
 //================================================
 
+#include <errno.h>
+#include "ky_log.h"
 #include "OPS_TcpSocket.h"
 
 namespace OPS
@@ -37,6 +39,7 @@ bool TcpSocket::connect(const char *ip, unsigned int port)
 	}
 	else
 	{
+		KY_LOG_WARN("connect remote server fail, errno: %d", errno);
 		return false;
 	}
 }
