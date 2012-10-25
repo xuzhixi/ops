@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-25 09:46:32
- *  Last   modified:  2012-10-25 13:15:43
+ *  Last   modified:  2012-10-25 14:41:51
  *
  *  Description: 
  */
@@ -30,9 +30,10 @@ namespace OPS
 	{
 		int fd = sk->getFd();
 
-		if ( this->regMap.find(fd) != this->regMap.end() )
+		map<int, EventList>::iterator regMapIter = this->regMap.find(fd);
+		if ( regMapIter != this->regMap.end() )
 		{	
-			EventList &evtList = this->regMap[fd];
+			EventList &evtList = regMapIter->second;
 
 			if ( evtList.evtFuncMap.find( type ) != evtList.evtFuncMap.end() )
 			{
@@ -82,13 +83,15 @@ namespace OPS
 	{
 		int fd = sk->getFd();
 
-		if ( this->regMap.find(fd) != this->regMap.end() )
+		map<int, EventList>::iterator regMapIter = this->regMap.find(fd);
+		if ( regMapIter != this->regMap.end() )
 		{
-			EventList &evtList = this->regMap[fd];
+			EventList &evtList = regMapIter->second;
 
-			if ( evtList.evtFuncMap.find( type ) != evtList.evtFuncMap.end() )
+			map<unsigned int, CallBack>::iterator iter = evtList.evtFuncMap.find( type );
+			if ( iter != evtList.evtFuncMap.end() )
 			{
-				evtList.evtFuncMap[type] = func;
+				iter->second = func;
 				return true;
 			}
 		}
@@ -100,9 +103,10 @@ namespace OPS
 	{
 		int fd = sk->getFd();
 
-		if ( this->regMap.find(fd) != this->regMap.end() )
+		map<int, EventList>::iterator regMapIter = this->regMap.find(fd);
+		if ( regMapIter != this->regMap.end() )
 		{
-			EventList &evtList = this->regMap[fd];
+			EventList &evtList = regMapIter->second;
 
 			if ( evtList.evtFuncMap.find( type ) != evtList.evtFuncMap.end() )
 			{
@@ -150,11 +154,10 @@ namespace OPS
 
 	bool Reactor::delOwn(Socket *sk)
 	{
-		int fd = sk->getFd();
-
-		if ( this->regMap.find(fd) != this->regMap.end() )
+		map<int, EventList>::iterator iter = this->regMap.find( sk->getFd() );
+		if ( iter != this->regMap.end() )
 		{
-			this->regMap[fd].isDel = true;
+			iter->second.isDel = true;
 			return true;
 		}
 
@@ -171,9 +174,10 @@ namespace OPS
 			eventCount = epoll_wait(this->epfd, this->events, REACTOR_EVERY_HANDLE_MAX_COUNT, -1);	// -1表示阻塞等待
 			for (int i=0; i<eventCount; i++)
 			{
-				if ( regMap.find( events[i].data.fd ) != regMap.end() )
+				map<int, EventList>::iterator regMapIter = regMap.find( events[i].data.fd );
+				if ( regMapIter != regMap.end() )
 				{
-					EventList &evtList = this->regMap[ events[i].data.fd ];
+					EventList &evtList = regMapIter->second;
 
 					map<unsigned int, CallBack>::iterator iter;
 					for (iter=evtList.evtFuncMap.begin(); iter!=evtList.evtFuncMap.end(); iter++)
