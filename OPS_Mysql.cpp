@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-17 08:19:07
- *  Last   modified:  2012-10-23 19:19:58
+ *  Last   modified:  2012-10-25 09:37:16
  *
  *  Description: 
  */
@@ -44,8 +44,11 @@ Mysql::~Mysql()
 {
 	// 清除结果集
 	this->dbResult.clearResult();
-	// 关闭数据库连接
-	mysql_close( this->db );
+	if ( this->db != NULL )
+	{
+		// 关闭数据库连接
+		mysql_close( this->db );
+	}
 }
 
 bool Mysql::setOption(enum mysql_option option, const char *arg)
