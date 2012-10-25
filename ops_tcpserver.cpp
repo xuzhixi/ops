@@ -6,12 +6,13 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-17 08:20:01
- *  Last   modified:  2012-10-25 23:53:35
+ *  Last   modified:  2012-10-26 01:45:37
  *
  *  Description: 
  */
 //================================================
 
+#include <errno.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include "ky_log.h"
@@ -42,7 +43,10 @@ bool TcpServer::accept(TcpSocket &client, bool block)
 	//阻塞等待进来的连接
 	if ((fd = ::accept(this->getFd(), (struct sockaddr *)&addr, &addrLen)) == -1)
 	{
-		KY_LOG_ERROR("accept error");
+		if ( errno != EAGAIN )
+		{
+			KY_LOG_ERROR("socket accept error, errno(%d)", errno);
+		}
 		return false;
 	}
 

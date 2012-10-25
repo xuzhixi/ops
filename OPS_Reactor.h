@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-25 09:46:54
- *  Last   modified:  2012-10-25 15:39:39
+ *  Last   modified:  2012-10-26 00:53:11
  *
  *  Description: 
  */
@@ -37,13 +37,15 @@ class Reactor
 			EventList()
 			{
 				this->sk = NULL;
-				this->isDel = false;
+				this->isDelEvt = false;
+				this->isDelSk = false;
 			}
 
 			Socket *sk;
 			struct epoll_event regEvt;
 			map<unsigned int, CallBack> evtFuncMap;
-			bool isDel;						///< 是否已从epoll删除这个socket句柄
+			bool isDelEvt;						///< 是否已从epoll删除这个socket句柄
+			bool isDelSk;						///< 是否删除socket
 	};
 
 	public:
@@ -55,7 +57,7 @@ class Reactor
 		bool mod(Socket *sk, EventType type, CallBack func);
 		bool del(Socket *sk, EventType type);
 		bool del(Socket *sk);
-		bool delOwn(Socket *sk);	///< 在回调函数中删除socket自身的所有事件，要调用这个函数
+		bool delOwn(Socket *sk, bool isDelSk=true);	///< 在回调函数中删除socket自身的所有事件，要调用这个函数
 		void eventLoop();			///< 进入事件循环
 		void quit();				///< 退出事件循环
 

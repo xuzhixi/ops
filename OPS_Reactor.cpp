@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-25 09:46:32
- *  Last   modified:  2012-10-25 15:20:17
+ *  Last   modified:  2012-10-26 01:00:27
  *
  *  Description: 
  */
@@ -128,6 +128,11 @@ namespace OPS
 				evtList.evtFuncMap.erase( type );
 				if ( evtList.evtFuncMap.empty() )
 				{
+					if ( epoll_ctl(this->epfd, EPOLL_CTL_DEL, fd, NULL) != 0 )	//从epoll中删除fd
+					{
+						KY_LOG_ERROR("delete epoll event error, epoll(%d) socket(%d) errno(%d)", this->epfd, fd, errno);
+						return false;
+					}
 					this->regMap.erase( fd );
 				}
 				return true;
@@ -156,15 +161,17 @@ namespace OPS
 		return false;
 	}
 
-	bool Reactor::delOwn(Socket *sk)
+	bool Reactor::delOwn(Socket *sk, bool isDelSk)
 	{
 		map<int, EventList>::iterator iter = this->regMap.find( sk->getFd() );
 		if ( iter != this->regMap.end() )
 		{
-			iter->second.isDel = true;
+			iter->second.isDelEvt = true;
+			iter->second.isDelSk = isDelSk;
 			return true;
 		}
 
+		KY_LOG_WARN("can no found socket(%d), delOwn fail", sk->getFd());
 		return false;
 	}
 
@@ -189,9 +196,17 @@ namespace OPS
 						if ( events[i].events & iter->first )
 						{
 							iter->second(evtList.sk, this);		// 调用注册的回调函数
-							if ( evtList.isDel )
+							if ( evtList.isDelEvt )
 							{
-								this->del(evtList.sk);
+								Socket *socket = evtList.sk;
+								bool delSocket = evtList.isDelSk;
+
+								this->del(socket);	// 删除事件
+								if ( delSocket )	// 删除socket
+								{
+									socket->close();
+									delete socket;
+								}
 								break;
 							}
 						}

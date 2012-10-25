@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-23 22:49:41
- *  Last   modified:  2012-10-25 23:48:48
+ *  Last   modified:  2012-10-26 01:02:55
  *
  *  Description: 
  */
@@ -52,9 +52,9 @@ class TServer
 
 			while ( (client=svr->accept(false)) != NULL )
 			{
+				KY_LOG_INFO("coming connect socket(%d) peerIp: %s peerPort: %d", client->getFd(), client->getPeerIp(), client->getPeerPort());
 				rat->add(client, Reactor::IN, TServer::readyRead);
 				rat->add(client, Reactor::OUT, TServer::readyWrite);
-				KY_LOG_INFO("coming connect socket(%d) peerIp: %s peerPort: %d", client->getFd(), client->getPeerIp(), client->getPeerPort());
 			}
 
 		}
@@ -65,10 +65,8 @@ class TServer
 			char buf[512];
 			ssize_t recvLen;
 
-			KY_LOG_DEBUG("socket(%d)!", socket->getFd());
 			while (1)
 			{
-				KY_LOG_DEBUG("socket(%d)!", socket->getFd());
 				recvLen = socket->recv(buf, 512);
 
 				if ( recvLen > 0 )			// 有数据可读
@@ -78,9 +76,8 @@ class TServer
 				}
 				else if ( recvLen == 0 )	// socket连接断开
 				{
-					socket->close();
+					KY_LOG_INFO("socket(%d) close", socket->getFd());
 					rat->delOwn( socket );
-					delete socket;
 					break;
 				}
 				else
@@ -88,9 +85,7 @@ class TServer
 					if ( errno != EAGAIN )	// 如果不是EAGAIN(表示没有可读数据), 表示发生错误
 					{
 						KY_LOG_ERROR("socket recv happen error, already close fd=%d", socket->getFd());
-						socket->close();
 						rat->delOwn( socket );
-						delete socket;
 					}
 					break;
 				}
@@ -99,6 +94,7 @@ class TServer
 
 		static void readyWrite(Socket *sk, Reactor *rat)
 		{
+			// 第一次连接进来会被触发一次
 			KY_LOG_INFO("readyWrite socket(%d)", sk->getFd());
 		}
 
