@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-17 08:20:07
- *  Last   modified:  2012-10-26 01:45:19
+ *  Last   modified:  2012-10-26 02:00:27
  *
  *  Description: 
  */
@@ -47,12 +47,15 @@ bool TcpSocket::connect(const char *ip, unsigned int port)
 ssize_t TcpSocket::send(const char *buf, size_t sendLen)
 {
 	ssize_t result;
+	int errno_bak;
 
 	result = ::send(this->getFd(), buf, sendLen, 0);
+	errno_bak = errno;
 	if ( (result == -1) && (errno != EAGAIN) )
 	{
 		KY_LOG_ERROR("socket(%d) send data error, errno(%d)", this->getFd(), errno);
 	}
+	errno = errno_bak;
 
 	return result;
 }
@@ -60,12 +63,15 @@ ssize_t TcpSocket::send(const char *buf, size_t sendLen)
 ssize_t TcpSocket::recv(char *buf, size_t bufLen)
 {
 	ssize_t result;
-	
+	int errno_bak;	
+
 	result = ::recv(this->getFd(), buf, bufLen, 0);
+	errno_bak = errno;
 	if ( (result == -1) && (errno != EAGAIN) )
 	{
 		KY_LOG_ERROR("socket(%d) recv data error, errno(%d)", this->getFd(), errno);
 	}
+	errno = errno_bak;
 
 	return result;
 }

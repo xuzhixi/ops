@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-17 08:20:01
- *  Last   modified:  2012-10-26 01:45:37
+ *  Last   modified:  2012-10-26 02:00:24
  *
  *  Description: 
  */
@@ -38,10 +38,13 @@ bool TcpServer::accept(TcpSocket &client, bool block)
 	int fd;
 	struct sockaddr_in addr;
 	socklen_t addrLen;
+	int errno_bak;
 
 	addrLen = sizeof(addr);
 	//阻塞等待进来的连接
-	if ((fd = ::accept(this->getFd(), (struct sockaddr *)&addr, &addrLen)) == -1)
+	fd = ::accept(this->getFd(), (struct sockaddr *)&addr, &addrLen);
+	errno_bak = errno;
+	if ( fd == -1 )
 	{
 		if ( errno != EAGAIN )
 		{
@@ -62,6 +65,7 @@ bool TcpServer::accept(TcpSocket &client, bool block)
 
 	client.setFd( fd );
 	client.savePeer( addr );
+	errno = errno_bak;
 
 	return true;
 }
