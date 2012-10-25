@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-17 08:19:47
- *  Last   modified:  2012-10-23 22:47:45
+ *  Last   modified:  2012-10-25 15:58:47
  *
  *  Description: 
  */
@@ -21,6 +21,10 @@
 
 namespace OPS
 {
+
+Socket::~Socket()
+{
+}
 
 bool Socket::init(const char *ip, unsigned int port, int type, bool block)
 {

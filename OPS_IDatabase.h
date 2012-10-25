@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-17 08:18:46
- *  Last   modified:  2012-10-23 19:19:50
+ *  Last   modified:  2012-10-25 23:13:37
  *
  *  Description: 
  */
@@ -39,6 +39,9 @@ class IDatabase
 		virtual long getLong(const char *fieldName) = 0;
 		virtual string getString(const char *fieldName) = 0;
 		virtual unsigned long getAffectedRows() = 0;
+		virtual bool beginTransaction() = 0;
+		virtual bool commit() = 0;
+		virtual bool rollback() = 0;
 
 		static bool getIsShowSql();
 		static void setIsShowSql(bool isshow);

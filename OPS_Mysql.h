@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-17 08:19:07
- *  Last   modified:  2012-10-23 18:57:50
+ *  Last   modified:  2012-10-25 23:19:27
  *
  *  Description: 
  */
@@ -42,8 +42,12 @@ class Mysql : public IDatabase
 		long getLong(const char *fieldName);
 		string getString(const char *fieldName);
 		unsigned long getAffectedRows();
+		bool beginTransaction();
+		bool commit();
+		bool rollback();
 
 	protected:
+		bool endTransaction();
 		bool saveSelectResult(MysqlResult *result);
 		void markLastError();
 

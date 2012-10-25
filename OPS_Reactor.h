@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-25 09:46:54
- *  Last   modified:  2012-10-25 13:14:54
+ *  Last   modified:  2012-10-25 15:39:39
  *
  *  Description: 
  */
@@ -49,7 +49,8 @@ class Reactor
 	public:
 		enum EventType{IN=EPOLLIN, OUT=EPOLLOUT, PRI=EPOLLPRI, ERR=EPOLLERR, HUP=EPOLLHUP, ET=EPOLLET, LT=0, ONESHO=EPOLLONESHOT };
 
-		Reactor(int size, unsigned int mode=ET);
+		Reactor();
+		void init(int size, unsigned int mode=LT);
 		bool add(Socket *sk, EventType type, CallBack func);
 		bool mod(Socket *sk, EventType type, CallBack func);
 		bool del(Socket *sk, EventType type);

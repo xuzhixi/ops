@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-25 09:46:32
- *  Last   modified:  2012-10-25 14:41:51
+ *  Last   modified:  2012-10-25 15:20:17
  *
  *  Description: 
  */
@@ -19,11 +19,15 @@
 namespace OPS
 {
 
-	Reactor::Reactor(int size, unsigned int mode)
+	Reactor::Reactor()
+	{
+		this->isQuit = false;
+	}
+
+	void Reactor::init(int size, unsigned int mode)
 	{
 		this->epfd = epoll_create(size);     // 建立一个epoll,最多可以监听size个fd 
 		this->mode = mode;					 // ET or LT
-		this->isQuit = false;
 	}
 
 	bool Reactor::add(Socket *sk, EventType type, CallBack func)

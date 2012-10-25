@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-17 08:19:07
- *  Last   modified:  2012-10-25 09:37:16
+ *  Last   modified:  2012-10-25 23:22:00
  *
  *  Description: 
  */
@@ -163,7 +163,61 @@ unsigned long Mysql::getAffectedRows()
 	return mysql_affected_rows( this->db );
 }
 
+bool Mysql::beginTransaction()
+{
+	//  mysql_autocommit第二个参数，为0表示不自动提交，为1表示自动提交
+	if ( mysql_autocommit(this->db, 0) != 0 )
+	{
+		KY_LOG_ERROR("beginTransaction set mysql autocommit=0 fail");
+		return false;
+	}
+
+	return true;
+}
+
+bool Mysql::commit()
+{
+	my_bool result;
+
+	result = mysql_commit(this->db);
+	this->endTransaction();
+	if ( result != 0 )
+	{
+		KY_LOG_ERROR("mysql commit transaction fail");
+		return false;
+	}
+
+	return true;
+}
+
+bool Mysql::rollback()
+{
+	my_bool result;
+
+	result = mysql_rollback(this->db);
+	this->endTransaction();
+	if ( result != 0 )
+	{
+		KY_LOG_ERROR("mysql rollback transaction fail");
+		return false;
+	}
+
+	return true;
+}
+
 // protected
+
+bool Mysql::endTransaction()
+{
+	//  mysql_autocommit第二个参数，为0表示不自动提交，为1表示自动提交
+	if ( mysql_autocommit(this->db, 1) != 0 )
+	{
+		KY_LOG_ERROR("endTransaction set mysql autocommit=1 fail");
+		return false;
+	}
+
+	return true;
+}
 
 bool Mysql::saveSelectResult(MysqlResult *result)
 {
