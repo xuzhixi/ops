@@ -55,6 +55,8 @@ class TServer
 				KY_LOG_INFO("coming connect socket(%d) peerIp: %s peerPort: %d", client->getFd(), client->getPeerIp(), client->getPeerPort());
 				rat->add(client, Reactor::IN, TServer::readyRead);
 				rat->add(client, Reactor::OUT, TServer::readyWrite);
+				
+				client->send("Hello OPS!", strlen("Hello OPS!")+1);
 			}
 
 		}
