@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-17 08:20:13
- *  Last   modified:  2012-10-19 17:38:21
+ *  Last   modified:  2012-10-27 03:49:13
  *
  *  Description: 
  */
@@ -57,6 +57,10 @@ void ThreadPool::stop()
 		for (size_t i=0; i<(this->size); i++)
 		{
 			this->threads[i].setStop( true );
+		}
+		for (size_t i=0; i<(this->size); i++)
+		{
+			this->threads[i].join();
 		}
 	}
 }

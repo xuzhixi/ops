@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-17 08:20:23
- *  Last   modified:  2012-10-19 17:38:47
+ *  Last   modified:  2012-10-27 02:58:35
  *
  *  Description: 
  */
@@ -58,7 +58,7 @@ bool Tool::savePidFile(const char *fileName)
 		KY_LOG_WARN("open pidfile: %s error!", fileName);
 		return false;
 	}
-	fprintf(fp, "%ld\n",  Process::currentPid());
+	fprintf(fp, "%d\n",  Process::currentPid());
 	fclose(fp);
 
 	return true;

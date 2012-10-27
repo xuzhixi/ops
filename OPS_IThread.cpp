@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-17 08:18:52
- *  Last   modified:  2012-10-26 16:00:32
+ *  Last   modified:  2012-10-27 02:59:27
  *
  *  Description: 
  */
@@ -26,7 +26,6 @@ namespace OPS
 	IThread::~IThread()
 	{
 	}
-
 
 	void IThread::setIsDetach(bool isDetach)
 	{
@@ -74,7 +73,7 @@ namespace OPS
 		}
 	}
 
-	unsigned long IThread::getThreadId()
+	tid_t IThread::getTid()
 	{
 		return this->id;
 	}
@@ -97,4 +96,8 @@ namespace OPS
 		return NULL;
 	}
 
+	tid_t IThread::currentTid()
+	{
+		return pthread_self();
+	}
 }

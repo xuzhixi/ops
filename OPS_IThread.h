@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-17 08:18:51
- *  Last   modified:  2012-10-26 15:52:56
+ *  Last   modified:  2012-10-27 02:59:16
  *
  *  Description: 
  */
@@ -16,6 +16,10 @@
 #define __OPS_ITHREAD_H
 
 #include <pthread.h>
+
+#ifdef __linux
+typedef pthread_t tid_t;
+#endif
 
 namespace OPS
 {
@@ -30,14 +34,16 @@ class IThread
 		bool start();
 		void stop();
 		void join();
-		unsigned long getThreadId();
+		tid_t getTid();
 	
 	protected:
 		virtual void run() = 0;
 	
 	private:
 		static void *baseRun(void *param);
-		pthread_t id;
+		static tid_t currentTid();
+
+		tid_t id;
 		bool isDetach;
 };
 

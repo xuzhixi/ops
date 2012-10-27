@@ -53,7 +53,7 @@ int main()
 	printf("stop threadpoll...\n");
 	threadPool.stop();
 	printf("stop successful!\n");
-	sleep(3);
+	sleep(10);
 	ky_log_close_default();
 
 	return 0;

@@ -37,6 +37,7 @@ OBJECTS=\
 	OPS_NoMutex.o\
 	OPS_XmlNode.o\
 	ops_tcpsocket.o\
+	OPS_ProcessPool.o\
 	ops_semaphore.o\
 	ops_parseopt.o\
 	OPS_Task.o\
@@ -70,6 +71,7 @@ OBJECTS_DEBUG=\
 	OPS_NoMutex.od\
 	OPS_XmlNode.od\
 	ops_tcpsocket.od\
+	OPS_ProcessPool.od\
 	ops_semaphore.od\
 	ops_parseopt.od\
 	OPS_Task.od\
@@ -108,7 +110,8 @@ ops_readwritelock.o: ./ops_readwritelock.cpp\
 	./OPS_ReadWriteLock.h
 	$(CPP) ops_readwritelock.o ./ops_readwritelock.cpp
 OPS_Reactor.o: ./OPS_Reactor.cpp\
-	./OPS_Reactor.h
+	./OPS_Reactor.h\
+	./OPS_Socket.h
 	$(CPP) OPS_Reactor.o ./OPS_Reactor.cpp
 OPS_IDatabase.o: ./OPS_IDatabase.cpp\
 	./OPS_IDatabase.h
@@ -151,6 +154,9 @@ ops_tcpsocket.o: ./ops_tcpsocket.cpp\
 	./OPS_TcpSocket.h\
 	./OPS_Socket.h
 	$(CPP) ops_tcpsocket.o ./ops_tcpsocket.cpp
+OPS_ProcessPool.o: ./OPS_ProcessPool.cpp\
+	./OPS_ProcessPool.h
+	$(CPP) OPS_ProcessPool.o ./OPS_ProcessPool.cpp
 ops_semaphore.o: ./ops_semaphore.cpp\
 	./OPS_Semaphore.h
 	$(CPP) ops_semaphore.o ./ops_semaphore.cpp
@@ -236,7 +242,8 @@ ops_readwritelock.od: ./ops_readwritelock.cpp\
 	./OPS_ReadWriteLock.h
 	$(CPP_DEBUG) ops_readwritelock.od ./ops_readwritelock.cpp
 OPS_Reactor.od: ./OPS_Reactor.cpp\
-	./OPS_Reactor.h
+	./OPS_Reactor.h\
+	./OPS_Socket.h
 	$(CPP_DEBUG) OPS_Reactor.od ./OPS_Reactor.cpp
 OPS_IDatabase.od: ./OPS_IDatabase.cpp\
 	./OPS_IDatabase.h
@@ -279,6 +286,9 @@ ops_tcpsocket.od: ./ops_tcpsocket.cpp\
 	./OPS_TcpSocket.h\
 	./OPS_Socket.h
 	$(CPP_DEBUG) ops_tcpsocket.od ./ops_tcpsocket.cpp
+OPS_ProcessPool.od: ./OPS_ProcessPool.cpp\
+	./OPS_ProcessPool.h
+	$(CPP_DEBUG) OPS_ProcessPool.od ./OPS_ProcessPool.cpp
 ops_semaphore.od: ./ops_semaphore.cpp\
 	./OPS_Semaphore.h
 	$(CPP_DEBUG) ops_semaphore.od ./ops_semaphore.cpp
