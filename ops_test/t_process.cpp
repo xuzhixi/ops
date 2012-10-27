@@ -40,10 +40,13 @@ void handleSig(int sig)
 
 int main()
 {
+	char dir[50];
 	Test ps;
 	ProcessPool psPool;
 
-	//Process::setDaemon();
+	KY_LOG_INFO("current dir: %s", Process::getcwd(dir, 50));
+	Process::setDaemon();
+	KY_LOG_INFO("current dir: %s", Process::getcwd(dir, 50));
 	psPool.start(10, &ps);
 	Process::bound(SIGINT, handleSig);
 	psPool.wait();

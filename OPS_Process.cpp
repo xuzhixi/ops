@@ -6,12 +6,13 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-17 08:19:25
- *  Last   modified:  2012-10-27 15:15:07
+ *  Last   modified:  2012-10-27 15:44:18
  *
  *  Description: 
  */
 //================================================
 
+#include <errno.h>
 #include <unistd.h>
 #include "ky_log.h"
 #include "OPS_Process.h"
@@ -59,5 +60,32 @@ namespace OPS
 		}
 
 		return true;
+	}
+
+	bool Process::chdir(const char * path)
+	{
+		if ( ::chdir(path) != 0 )
+		{
+			KY_LOG_WARN("change current dir fail, errno(%d)", errno);
+			return false;
+		}
+
+		return true;
+	}
+
+	bool Process::chroot(const char * path)
+	{
+		if ( ::chroot(path) != 0 )
+		{
+			KY_LOG_WARN("change root dir fail, errno(%d)", errno);
+			return false;
+		}
+
+		return true;
+	}
+
+	char *Process::getcwd(char * buf, size_t size)
+	{
+		return ::getcwd(buf, size);
 	}
 }
