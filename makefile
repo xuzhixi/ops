@@ -32,27 +32,27 @@ OBJECTS=\
 	OPS_IThread.o\
 	ops_udpsocket.o\
 	OPS_ThreadPool.o\
-	OPS_Process.o\
 	OPS_ParseIni.o\
 	OPS_NoMutex.o\
 	OPS_XmlNode.o\
+	ops_condition.o\
 	ops_tcpsocket.o\
-	OPS_ProcessPool.o\
 	ops_semaphore.o\
 	ops_parseopt.o\
 	OPS_Task.o\
+	OPS_MultiProcess.o\
 	ops_socket.o\
 	ops_wlockguard.o\
 	ops_mutex.o\
 	ky_time.o\
 	OPS_IDbResult.o\
-	ops_rlockguard.o\
+	OPS_IProcess.o\
 	OPS_MysqlResult.o\
 	ops_mutexguard.o\
 	OPS_XmlDocument.o\
 	OPS_Mysql.o\
 	ky_log.o\
-	ops_condition.o\
+	ops_rlockguard.o\
 	OPS_String.o\
 	OPS_DbConnectPool.o\
 	
@@ -66,27 +66,27 @@ OBJECTS_DEBUG=\
 	OPS_IThread.od\
 	ops_udpsocket.od\
 	OPS_ThreadPool.od\
-	OPS_Process.od\
 	OPS_ParseIni.od\
 	OPS_NoMutex.od\
 	OPS_XmlNode.od\
+	ops_condition.od\
 	ops_tcpsocket.od\
-	OPS_ProcessPool.od\
 	ops_semaphore.od\
 	ops_parseopt.od\
 	OPS_Task.od\
+	OPS_MultiProcess.od\
 	ops_socket.od\
 	ops_wlockguard.od\
 	ops_mutex.od\
 	ky_time.od\
 	OPS_IDbResult.od\
-	ops_rlockguard.od\
+	OPS_IProcess.od\
 	OPS_MysqlResult.od\
 	ops_mutexguard.od\
 	OPS_XmlDocument.od\
 	OPS_Mysql.od\
 	ky_log.od\
-	ops_condition.od\
+	ops_rlockguard.od\
 	OPS_String.od\
 	OPS_DbConnectPool.od\
 	
@@ -103,8 +103,8 @@ ops_tcpserver.o: ./ops_tcpserver.cpp\
 	$(CPP) ops_tcpserver.o ./ops_tcpserver.cpp
 OPS_Tool.o: ./OPS_Tool.cpp\
 	./OPS_Mutex.h\
-	./OPS_Process.h\
-	./OPS_Tool.h
+	./OPS_Tool.h\
+	./OPS_IProcess.h
 	$(CPP) OPS_Tool.o ./OPS_Tool.cpp
 ops_readwritelock.o: ./ops_readwritelock.cpp\
 	./OPS_ReadWriteLock.h
@@ -139,9 +139,6 @@ OPS_ThreadPool.o: ./OPS_ThreadPool.cpp\
 	./OPS_Mutex.h\
 	./OPS_Task.h
 	$(CPP) OPS_ThreadPool.o ./OPS_ThreadPool.cpp
-OPS_Process.o: ./OPS_Process.cpp\
-	./OPS_Process.h
-	$(CPP) OPS_Process.o ./OPS_Process.cpp
 OPS_ParseIni.o: ./OPS_ParseIni.cpp\
 	./OPS_ParseIni.h
 	$(CPP) OPS_ParseIni.o ./OPS_ParseIni.cpp
@@ -150,13 +147,13 @@ OPS_NoMutex.o: ./OPS_NoMutex.cpp
 OPS_XmlNode.o: ./OPS_XmlNode.cpp\
 	./OPS_XmlNode.h
 	$(CPP) OPS_XmlNode.o ./OPS_XmlNode.cpp
+ops_condition.o: ./ops_condition.cpp\
+	./OPS_Mutex.h
+	$(CPP) ops_condition.o ./ops_condition.cpp
 ops_tcpsocket.o: ./ops_tcpsocket.cpp\
 	./OPS_TcpSocket.h\
 	./OPS_Socket.h
 	$(CPP) ops_tcpsocket.o ./ops_tcpsocket.cpp
-OPS_ProcessPool.o: ./OPS_ProcessPool.cpp\
-	./OPS_ProcessPool.h
-	$(CPP) OPS_ProcessPool.o ./OPS_ProcessPool.cpp
 ops_semaphore.o: ./ops_semaphore.cpp\
 	./OPS_Semaphore.h
 	$(CPP) ops_semaphore.o ./ops_semaphore.cpp
@@ -166,6 +163,10 @@ ops_parseopt.o: ./ops_parseopt.cpp\
 OPS_Task.o: ./OPS_Task.cpp\
 	./OPS_Task.h
 	$(CPP) OPS_Task.o ./OPS_Task.cpp
+OPS_MultiProcess.o: ./OPS_MultiProcess.cpp\
+	./OPS_MultiProcess.h\
+	./OPS_IProcess.h
+	$(CPP) OPS_MultiProcess.o ./OPS_MultiProcess.cpp
 ops_socket.o: ./ops_socket.cpp\
 	./OPS_Socket.h
 	$(CPP) ops_socket.o ./ops_socket.cpp
@@ -181,10 +182,9 @@ ky_time.o: ./ky_time.c
 OPS_IDbResult.o: ./OPS_IDbResult.cpp\
 	./OPS_IDbResult.h
 	$(CPP) OPS_IDbResult.o ./OPS_IDbResult.cpp
-ops_rlockguard.o: ./ops_rlockguard.cpp\
-	./OPS_ReadWriteLock.h\
-	./OPS_RlockGuard.h
-	$(CPP) ops_rlockguard.o ./ops_rlockguard.cpp
+OPS_IProcess.o: ./OPS_IProcess.cpp\
+	./OPS_IProcess.h
+	$(CPP) OPS_IProcess.o ./OPS_IProcess.cpp
 OPS_MysqlResult.o: ./OPS_MysqlResult.cpp\
 	./OPS_IDbResult.h\
 	./OPS_MysqlResult.h
@@ -206,9 +206,10 @@ OPS_Mysql.o: ./OPS_Mysql.cpp\
 	$(CPP) OPS_Mysql.o ./OPS_Mysql.cpp
 ky_log.o: ./ky_log.c
 	$(CC) ky_log.o ./ky_log.c
-ops_condition.o: ./ops_condition.cpp\
-	./OPS_Mutex.h
-	$(CPP) ops_condition.o ./ops_condition.cpp
+ops_rlockguard.o: ./ops_rlockguard.cpp\
+	./OPS_ReadWriteLock.h\
+	./OPS_RlockGuard.h
+	$(CPP) ops_rlockguard.o ./ops_rlockguard.cpp
 OPS_String.o: ./OPS_String.cpp\
 	./OPS_String.h
 	$(CPP) OPS_String.o ./OPS_String.cpp
@@ -235,8 +236,8 @@ ops_tcpserver.od: ./ops_tcpserver.cpp\
 	$(CPP_DEBUG) ops_tcpserver.od ./ops_tcpserver.cpp
 OPS_Tool.od: ./OPS_Tool.cpp\
 	./OPS_Mutex.h\
-	./OPS_Process.h\
-	./OPS_Tool.h
+	./OPS_Tool.h\
+	./OPS_IProcess.h
 	$(CPP_DEBUG) OPS_Tool.od ./OPS_Tool.cpp
 ops_readwritelock.od: ./ops_readwritelock.cpp\
 	./OPS_ReadWriteLock.h
@@ -271,9 +272,6 @@ OPS_ThreadPool.od: ./OPS_ThreadPool.cpp\
 	./OPS_Mutex.h\
 	./OPS_Task.h
 	$(CPP_DEBUG) OPS_ThreadPool.od ./OPS_ThreadPool.cpp
-OPS_Process.od: ./OPS_Process.cpp\
-	./OPS_Process.h
-	$(CPP_DEBUG) OPS_Process.od ./OPS_Process.cpp
 OPS_ParseIni.od: ./OPS_ParseIni.cpp\
 	./OPS_ParseIni.h
 	$(CPP_DEBUG) OPS_ParseIni.od ./OPS_ParseIni.cpp
@@ -282,13 +280,13 @@ OPS_NoMutex.od: ./OPS_NoMutex.cpp
 OPS_XmlNode.od: ./OPS_XmlNode.cpp\
 	./OPS_XmlNode.h
 	$(CPP_DEBUG) OPS_XmlNode.od ./OPS_XmlNode.cpp
+ops_condition.od: ./ops_condition.cpp\
+	./OPS_Mutex.h
+	$(CPP_DEBUG) ops_condition.od ./ops_condition.cpp
 ops_tcpsocket.od: ./ops_tcpsocket.cpp\
 	./OPS_TcpSocket.h\
 	./OPS_Socket.h
 	$(CPP_DEBUG) ops_tcpsocket.od ./ops_tcpsocket.cpp
-OPS_ProcessPool.od: ./OPS_ProcessPool.cpp\
-	./OPS_ProcessPool.h
-	$(CPP_DEBUG) OPS_ProcessPool.od ./OPS_ProcessPool.cpp
 ops_semaphore.od: ./ops_semaphore.cpp\
 	./OPS_Semaphore.h
 	$(CPP_DEBUG) ops_semaphore.od ./ops_semaphore.cpp
@@ -298,6 +296,10 @@ ops_parseopt.od: ./ops_parseopt.cpp\
 OPS_Task.od: ./OPS_Task.cpp\
 	./OPS_Task.h
 	$(CPP_DEBUG) OPS_Task.od ./OPS_Task.cpp
+OPS_MultiProcess.od: ./OPS_MultiProcess.cpp\
+	./OPS_MultiProcess.h\
+	./OPS_IProcess.h
+	$(CPP_DEBUG) OPS_MultiProcess.od ./OPS_MultiProcess.cpp
 ops_socket.od: ./ops_socket.cpp\
 	./OPS_Socket.h
 	$(CPP_DEBUG) ops_socket.od ./ops_socket.cpp
@@ -313,10 +315,9 @@ ky_time.od: ./ky_time.c
 OPS_IDbResult.od: ./OPS_IDbResult.cpp\
 	./OPS_IDbResult.h
 	$(CPP_DEBUG) OPS_IDbResult.od ./OPS_IDbResult.cpp
-ops_rlockguard.od: ./ops_rlockguard.cpp\
-	./OPS_ReadWriteLock.h\
-	./OPS_RlockGuard.h
-	$(CPP_DEBUG) ops_rlockguard.od ./ops_rlockguard.cpp
+OPS_IProcess.od: ./OPS_IProcess.cpp\
+	./OPS_IProcess.h
+	$(CPP_DEBUG) OPS_IProcess.od ./OPS_IProcess.cpp
 OPS_MysqlResult.od: ./OPS_MysqlResult.cpp\
 	./OPS_IDbResult.h\
 	./OPS_MysqlResult.h
@@ -338,9 +339,10 @@ OPS_Mysql.od: ./OPS_Mysql.cpp\
 	$(CPP_DEBUG) OPS_Mysql.od ./OPS_Mysql.cpp
 ky_log.od: ./ky_log.c
 	$(CC_DEBUG) ky_log.od ./ky_log.c
-ops_condition.od: ./ops_condition.cpp\
-	./OPS_Mutex.h
-	$(CPP_DEBUG) ops_condition.od ./ops_condition.cpp
+ops_rlockguard.od: ./ops_rlockguard.cpp\
+	./OPS_ReadWriteLock.h\
+	./OPS_RlockGuard.h
+	$(CPP_DEBUG) ops_rlockguard.od ./ops_rlockguard.cpp
 OPS_String.od: ./OPS_String.cpp\
 	./OPS_String.h
 	$(CPP_DEBUG) OPS_String.od ./OPS_String.cpp

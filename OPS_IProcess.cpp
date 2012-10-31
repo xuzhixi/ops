@@ -1,12 +1,12 @@
 //===============================================
 /**
- *  @file OPS_Process.cpp
+ *  @file OPS_IProcess.cpp
  *
  *  @author XuZhiXi
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-17 08:19:25
- *  Last   modified:  2012-10-27 15:44:18
+ *  Last   modified:  2012-10-30 03:51:07
  *
  *  Description: 
  */
@@ -15,32 +15,32 @@
 #include <errno.h>
 #include <unistd.h>
 #include "ky_log.h"
-#include "OPS_Process.h"
+#include "OPS_IProcess.h"
 
 namespace OPS
 {
 
-	Process::~Process()
+	IProcess::~IProcess()
 	{
 	}
 
-	pid_t Process::currentPid()
+	pid_t IProcess::currentPid()
 	{
 		return getpid();
 	}
 
-	bool Process::setDaemon(int curdir, int stdio)
+	bool IProcess::setDaemon(int curdir, int stdio)
 	{
 		if ( daemon(curdir, stdio) != 0 )
 		{
-			KY_LOG_WARN("set process(%d) daemon error", Process::currentPid());
+			KY_LOG_WARN("set process(%d) daemon error", IProcess::currentPid());
 			return false;
 		}
 
 		return true;
 	}
 
-	bool Process::bound(int sig, void (*callBack)(int))
+	bool IProcess::bound(int sig, void (*callBack)(int))
 	{
 		if ( signal(sig, callBack) == SIG_ERR )
 		{
@@ -51,7 +51,7 @@ namespace OPS
 		return true;
 	}
 
-	bool Process::sendSignal(pid_t pid, int sig)
+	bool IProcess::sendSignal(pid_t pid, int sig)
 	{
 		if ( kill(pid, sig) != 0 )
 		{
@@ -62,7 +62,7 @@ namespace OPS
 		return true;
 	}
 
-	bool Process::chdir(const char * path)
+	bool IProcess::chdir(const char * path)
 	{
 		if ( ::chdir(path) != 0 )
 		{
@@ -73,7 +73,7 @@ namespace OPS
 		return true;
 	}
 
-	bool Process::chroot(const char * path)
+	bool IProcess::chroot(const char * path)
 	{
 		if ( ::chroot(path) != 0 )
 		{
@@ -84,7 +84,7 @@ namespace OPS
 		return true;
 	}
 
-	char *Process::getcwd(char * buf, size_t size)
+	char *IProcess::getcwd(char * buf, size_t size)
 	{
 		return ::getcwd(buf, size);
 	}

@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-19 17:23:03
- *  Last   modified:  2012-10-24 15:43:05
+ *  Last   modified:  2012-10-28 21:39:58
  *
  *  Description: 
  */
@@ -23,14 +23,6 @@
 
 namespace OPS
 {
-
-	Mutex DbConnectPool::mutex;
-	volatile DbConnectPool *DbConnectPool::instance = NULL;
-
-	DbConnectPool::DbConnectPool()
-	{
-	}
-
 	DbConnectPool::~DbConnectPool()
 	{
 		this->clear();
@@ -158,23 +150,11 @@ namespace OPS
 		}
 		else
 		{
-			return false;
+			delete db;
+			db = NULL;
+			KY_LOG_WARN("because of can not found poolName(%d), direct delete db!", poolName.c_str());
+			return true;
 		}
-	}
-
-	DbConnectPool *DbConnectPool::getInstance()
-	{
-		// 使用双重检查加锁, 避免不必要的同步操作
-		if ( DbConnectPool::instance == NULL )
-		{
-			MutexGuard mg( &(DbConnectPool::mutex) );
-			if ( DbConnectPool::instance == NULL )
-			{
-				DbConnectPool::instance = new DbConnectPool();
-			}
-		}
-
-		return (DbConnectPool *)DbConnectPool::instance;
 	}
 
 	// protected
@@ -190,16 +170,19 @@ namespace OPS
 
 	Queue<IDatabase *> *DbConnectPool::getPoolQueue(string poolName)
 	{
-			MutexGuard md( &(this->dbMapsMutex) );
-			if ( this->dbMaps.find(poolName) != this->dbMaps.end() )
-			{
-				return this->dbMaps[poolName];
-			}
-			else
-			{
-				KY_LOG_WARN("release database connect fail, poolName(%s)", poolName.c_str());
-				return NULL;
-			}
+		map<string, Queue<IDatabase *> *>::iterator iter;
+
+		MutexGuard md( &(this->dbMapsMutex) );
+		iter = this->dbMaps.find( poolName );
+		if ( iter != this->dbMaps.end() )
+		{
+			return iter->second;
+		}
+		else
+		{
+			KY_LOG_WARN("release database connect fail, poolName(%s)", poolName.c_str());
+			return NULL;
+		}
 	}
 
 	void DbConnectPool::clear()
@@ -208,6 +191,7 @@ namespace OPS
 		Queue<IDatabase *> *que;	
 		IDatabase *db;
 
+		MutexGuard md( &(this->dbMapsMutex) );
 		for (iter=this->dbMaps.begin(); iter!=this->dbMaps.end(); iter++)
 		{
 			// 删除连接池队列

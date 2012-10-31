@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-23 22:49:41
- *  Last   modified:  2012-10-26 01:02:55
+ *  Last   modified:  2012-10-29 13:48:32
  *
  *  Description: 
  */
@@ -39,7 +39,7 @@ class TServer
 				return;
 			}
 
-			rat.init(1000, Reactor::ET);
+			rat.init(10000, Reactor::ET);
 			rat.add( &server, Reactor::IN, TServer::handleConnect);	
 			rat.eventLoop();
 		}

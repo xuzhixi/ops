@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-25 09:46:54
- *  Last   modified:  2012-10-26 00:53:11
+ *  Last   modified:  2012-10-29 14:38:27
  *
  *  Description: 
  */
@@ -52,6 +52,9 @@ class Reactor
 		enum EventType{IN=EPOLLIN, OUT=EPOLLOUT, PRI=EPOLLPRI, ERR=EPOLLERR, HUP=EPOLLHUP, ET=EPOLLET, LT=0, ONESHO=EPOLLONESHOT };
 
 		Reactor();
+		virtual ~Reactor();
+		void setUserData(void *data);
+		void *getUserData();
 		void init(int size, unsigned int mode=LT);
 		bool add(Socket *sk, EventType type, CallBack func);
 		bool mod(Socket *sk, EventType type, CallBack func);
@@ -67,6 +70,7 @@ class Reactor
 		map<int, EventList> regMap;		///< 记录已注册的事件
 		struct epoll_event events[REACTOR_EVERY_HANDLE_MAX_COUNT];       ///< 记录已经触发的事件
 		bool isQuit;					///< 是否退出事件循环
+		void *userData;					///< 存放用户数据
 };
 
 }

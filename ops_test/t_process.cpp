@@ -19,12 +19,15 @@
 using OPS::Process;
 using OPS::ProcessPool;
 
+int *g_count;
+
 class Test : public Process
 {
 	public:
 		int run()
 		{
-			KY_LOG_INFO("this process pid: %d", Process::currentPid());
+			*g_count += 1;
+			KY_LOG_INFO("this process pid: %d count: %d", Process::currentPid(), *g_count);
 			return 0;
 		}
 };
@@ -43,18 +46,19 @@ int main()
 	char dir[50];
 	Test ps;
 	ProcessPool psPool;
+	g_count = new int(0);
 
-	KY_LOG_INFO("current dir: %s", Process::getcwd(dir, 50));
-	Process::setDaemon();
-	KY_LOG_INFO("current dir: %s", Process::getcwd(dir, 50));
+	//KY_LOG_INFO("current dir: %s", Process::getcwd(dir, 50));
+	//Process::setDaemon();
+	//KY_LOG_INFO("current dir: %s", Process::getcwd(dir, 50));
 	psPool.start(10, &ps);
-	Process::bound(SIGINT, handleSig);
+	//Process::bound(SIGINT, handleSig);
 	psPool.wait();
 
-	while (1)
-	{
-		sleep(3);
-	}
+	//while (1)
+	//{
+	//	sleep(3);
+	//}
 
 	return 0;
 }

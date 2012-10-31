@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-25 09:46:32
- *  Last   modified:  2012-10-26 01:00:27
+ *  Last   modified:  2012-10-29 14:38:25
  *
  *  Description: 
  */
@@ -24,9 +24,27 @@ namespace OPS
 		this->isQuit = false;
 	}
 
+	Reactor::~Reactor()
+	{
+	}
+
+	void Reactor::setUserData(void *data)
+	{
+		this->userData = data;
+	}
+
+	void *Reactor::getUserData()
+	{
+		return this->userData;
+	}
+
 	void Reactor::init(int size, unsigned int mode)
 	{
 		this->epfd = epoll_create(size);     // 建立一个epoll,最多可以监听size个fd 
+		if ( this->epfd == -1 )
+		{
+			KY_LOG_ERROR("epoll_create error, errno(%d)", errno);
+		}
 		this->mode = mode;					 // ET or LT
 	}
 

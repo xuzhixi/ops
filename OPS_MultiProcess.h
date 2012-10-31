@@ -1,34 +1,32 @@
 //===============================================
 /**
- *  @file OPS_ProcessPool.h
+ *  @file OPS_MultiProcess.h
  *
  *  @author XuZhiXi
  *  Email   932834199@qq.com or 932834199@163.com
  *
- *  Create datetime:  2012-10-27 02:27:25
- *  Last   modified:  2012-10-27 02:43:43
+ *  Create datetime:  2012-10-30 03:38:26
+ *  Last   modified:  2012-10-30 03:50:48
  *
  *  Description: 
  */
 //================================================
 
-#ifndef __OPS_PROCESSPOOL_H
-#define __OPS_PROCESSPOOL_H
-
+#ifndef __OPS_MULTIPROCESS_H
+#define __OPS_MULTIPROCESS_H
 
 #include <vector>
-#include <sys/types.h>
 
 using std::vector;
 
 namespace OPS
 {
-	class Process;
+	class IProcess;
 
-	class ProcessPool
+	class MultiProcess
 	{
 		public:
-			void start(int count, Process *ps=NULL);
+			void start(int count, IProcess *ps=NULL);
 			void wait();
 
 		private:
@@ -36,4 +34,5 @@ namespace OPS
 	};
 }
 
-#endif // __OPS_PROCESSPOOL_H
+#endif // __OPS_MULTIPROCESS_H
+

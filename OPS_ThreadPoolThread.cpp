@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-17 08:20:19
- *  Last   modified:  2012-10-19 17:38:32
+ *  Last   modified:  2012-10-29 15:03:54
  *
  *  Description: 
  */
@@ -36,7 +36,7 @@ void ThreadPoolThread::run()
 
 	while (1)
 	{
-		if ( this->threadPool->queue.pop( task, 3 ) )
+		if ( this->threadPool->queue.pop( task, 3 ) )	// 3秒超时
 		{
 			task->execute();
 			delete task;

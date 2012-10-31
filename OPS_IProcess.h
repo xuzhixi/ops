@@ -1,19 +1,19 @@
 //===============================================
 /**
- *  @file OPS_Process.h
+ *  @file OPS_IProcess.h
  *
  *  @author XuZhiXi
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-17 08:19:24
- *  Last   modified:  2012-10-27 15:48:14
+ *  Last   modified:  2012-10-30 03:48:30
  *
  *  Description: 
  */
 //================================================
 
-#ifndef __OPS_PROCESS_H
-#define __OPS_PROCESS_H
+#ifndef __OPS_IPROCESS_H
+#define __OPS_IPROCESS_H
 
 #include <errno.h>
 #include <sys/types.h>
@@ -23,10 +23,10 @@
 
 namespace OPS
 {
-	class Process
+	class IProcess
 	{
 		public:
-			virtual ~Process();
+			virtual ~IProcess();
 			virtual int run() = 0;
 
 			static pid_t currentPid();
@@ -46,4 +46,4 @@ namespace OPS
 	};
 }
 
-#endif // __OPS_PROCESS_H
+#endif // __OPS_IPROCESS_H

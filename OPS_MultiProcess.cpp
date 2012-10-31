@@ -1,25 +1,26 @@
 //===============================================
 /**
- *  @file OPS_ProcessPool.cpp
+ *  @file OPS_MultiProcess.c
  *
  *  @author XuZhiXi
  *  Email   932834199@qq.com or 932834199@163.com
  *
- *  Create datetime:  2012-10-27 02:27:26
- *  Last   modified:  2012-10-27 03:18:18
+ *  Create datetime:  2012-10-30 03:42:51
+ *  Last   modified:  2012-10-30 03:50:50
  *
  *  Description: 
  */
 //================================================
 
+#include <sys/types.h>
 #include <sys/wait.h>
 #include "ky_log.h"
-#include "OPS_ProcessPool.h"
-#include "OPS_Process.h"
+#include "OPS_IProcess.h"
+#include "OPS_MultiProcess.h"
 
 namespace OPS
 {
-	void ProcessPool::start(int count, Process *ps)
+	void MultiProcess::start(int count, IProcess *ps)
 	{
 		for(int i=0; i<count; i++) 
 		{ 
@@ -40,10 +41,10 @@ namespace OPS
 			{ 
 				KY_LOG_ERROR("create progress error, errno(%d)", errno); 
 			} 
-		} 
+		}
 	}
 
-	void ProcessPool::wait()
+	void MultiProcess::wait()
 	{
 		pid_t pid;
 		int status;

@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-17 08:20:23
- *  Last   modified:  2012-10-27 02:58:35
+ *  Last   modified:  2012-10-30 03:50:06
  *
  *  Description: 
  */
@@ -17,7 +17,7 @@
 #include <cstring>
 #include <cstdlib>
 #include "ky_log.h"
-#include "OPS_Process.h"
+#include "OPS_IProcess.h"
 #include "OPS_Tool.h"
 
 namespace OPS
@@ -36,7 +36,7 @@ unsigned int Tool::rand(unsigned int start, unsigned int end)
 	if ( lastTime != time(NULL) )
 	{
 		lastTime = time(NULL);
-		srand( lastTime + Process::currentPid() );
+		srand( lastTime + IProcess::currentPid() );
 	}
 	result = ( ::rand() % scopeLen  ) + start;
 	Tool::randMutex.unlock();
@@ -58,7 +58,7 @@ bool Tool::savePidFile(const char *fileName)
 		KY_LOG_WARN("open pidfile: %s error!", fileName);
 		return false;
 	}
-	fprintf(fp, "%d\n",  Process::currentPid());
+	fprintf(fp, "%d\n",  IProcess::currentPid());
 	fclose(fp);
 
 	return true;

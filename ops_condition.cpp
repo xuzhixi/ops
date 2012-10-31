@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-17 08:18:42
- *  Last   modified:  2012-10-19 17:33:20
+ *  Last   modified:  2012-10-29 15:03:08
  *
  *  Description: 
  */
@@ -74,7 +74,7 @@ bool Condition::timeWait(Mutex &m, long sec, long nsec, bool *isTimeout)
 	{
 		if ( result == ETIMEDOUT )
 		{
-			KY_LOG_WARN("pthread_cond_timedwait, timeout(sec: %lu, nsec: %lu)", sec, nsec);
+			//KY_LOG_WARN("pthread_cond_timedwait, timeout(sec: %lu, nsec: %lu)", sec, nsec);
 			if ( isTimeout != NULL )
 			{
 				*isTimeout = true;
