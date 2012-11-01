@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-17 08:19:43
- *  Last   modified:  2012-10-25 15:58:39
+ *  Last   modified:  2012-11-01 14:11:42
  *
  *  Description: 
  */
@@ -17,6 +17,7 @@
 
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <string>
 
 /// 表示任意的IP
 #define SOCKET_ADDR_ANY "0.0.0.0"
@@ -26,6 +27,8 @@
 #define SOCKET_STREAM   SOCK_STREAM
 /// UDP连接方式
 #define SOCKET_DGRAM    SOCK_DGRAM
+
+using std::string;
 
 namespace OPS
 {
@@ -38,16 +41,20 @@ class Socket
 		bool close();
 		void setFd(int fd);
 		int getFd();
+		void setName(const string &name);
+		string getName() const;
 		const char *getLocalIp();
 		unsigned int getLocalPort();
 		const char *getPeerIp();
 		unsigned int getPeerPort();
 		void saveLocal(struct sockaddr_in &addr);		// 保存本地的IP和端口
 		void savePeer(struct sockaddr_in &addr);		// 保存对方的IP和端口
+
 		static void initSockAddr(struct sockaddr_in &addr, const char *ip, unsigned int port);	// 初始化sockaddr_in
 		static bool setNonblock(int fd);
 
 	private:
+		string name;					///< 用户名
 		int fd;							///< 操作的socket句柄
 		char ip[16];					///< 本地IP
 		unsigned int port;				///< 本地端口

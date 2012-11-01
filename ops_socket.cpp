@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-17 08:19:47
- *  Last   modified:  2012-10-25 23:51:27
+ *  Last   modified:  2012-11-01 14:11:54
  *
  *  Description: 
  */
@@ -94,6 +94,16 @@ void Socket::setFd(int fd)
 int Socket::getFd()
 {
 	return this->fd;
+}
+
+void Socket::setName(const string &name)
+{
+	this->name = name;
+}
+
+string Socket::getName() const
+{
+	return this->name;
 }
 
 const char *Socket::getLocalIp()
