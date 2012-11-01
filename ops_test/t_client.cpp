@@ -32,6 +32,11 @@ int main()
 		return -1;
 	}
 	
+	for (int i=0; i<100; i++)
+	{
+		client.send("[5,12345]", 9);
+	}
+
 	while (1)
 	{
 		recvSize = client.recv(buf, 100);
