@@ -18,40 +18,61 @@
 
 namespace OPS
 {
-
-bool TcpSocket::init(const char *ip, unsigned int port, bool block)
-{
-	return Socket::init(ip, port, SOCKET_STREAM, block);
-}
-
-bool TcpSocket::connect(const char *ip, unsigned int port)
-{
-	int result;
-	struct sockaddr_in addr;
-
-	Socket::initSockAddr( addr, ip, port );
-	result = ::connect(this->getFd(), (struct sockaddr *)&addr, sizeof(addr));
-	this->savePeer( addr );
-
-	if ( result == 0 )
+	TcpSocket::TcpSocket()
 	{
-		return true;
+		this->buffer = NULL;
 	}
-	else
+
+	TcpSocket::~TcpSocket()
 	{
-		KY_LOG_WARN("connect remote server fail, errno: %d", errno);
-		return false;
+		if ( this->buffer != NULL )
+		{
+			delete buffer;
+		}
 	}
-}
 
-ssize_t TcpSocket::send(const char *buf, size_t sendLen)
-{
-	return ::send(this->getFd(), buf, sendLen, 0);
-}
+	bool TcpSocket::init(const char *ip, unsigned int port, bool block)
+	{
+		return Socket::init(ip, port, SOCKET_STREAM, block);
+	}
 
-ssize_t TcpSocket::recv(char *buf, size_t bufLen)
-{
-	return ::recv(this->getFd(), buf, bufLen, 0);
-}
+	bool TcpSocket::connect(const char *ip, unsigned int port)
+	{
+		int result;
+		struct sockaddr_in addr;
 
+		Socket::initSockAddr( addr, ip, port );
+		result = ::connect(this->getFd(), (struct sockaddr *)&addr, sizeof(addr));
+		this->savePeer( addr );
+
+		if ( result == 0 )
+		{
+			return true;
+		}
+		else
+		{
+			KY_LOG_WARN("connect remote server fail, errno: %d", errno);
+			return false;
+		}
+	}
+
+	ssize_t TcpSocket::send(const char *buf, size_t sendLen)
+	{
+		return ::send(this->getFd(), buf, sendLen, 0);
+	}
+
+	ssize_t TcpSocket::recv(char *buf, size_t bufLen)
+	{
+		return ::recv(this->getFd(), buf, bufLen, 0);
+	}
+
+	void TcpSocket::setBuffer(IBuffer *buf)
+	{
+		this->buffer = buf;
+	}
+
+	IBuffer *TcpSocket::getBuffer()
+	{
+		return this->buffer;
+	}
 }

@@ -52,7 +52,7 @@ namespace OPS
 	{
 		int fd = sk->getFd();
 
-		map<int, EventList>::iterator regMapIter = this->regMap.find(fd);
+		HASH_MAP<int, EventList>::iterator regMapIter = this->regMap.find(fd);
 		if ( regMapIter != this->regMap.end() )
 		{	
 			EventList &evtList = regMapIter->second;
@@ -105,7 +105,7 @@ namespace OPS
 	{
 		int fd = sk->getFd();
 
-		map<int, EventList>::iterator regMapIter = this->regMap.find(fd);
+		HASH_MAP<int, EventList>::iterator regMapIter = this->regMap.find(fd);
 		if ( regMapIter != this->regMap.end() )
 		{
 			EventList &evtList = regMapIter->second;
@@ -125,7 +125,7 @@ namespace OPS
 	{
 		int fd = sk->getFd();
 
-		map<int, EventList>::iterator regMapIter = this->regMap.find(fd);
+		HASH_MAP<int, EventList>::iterator regMapIter = this->regMap.find(fd);
 		if ( regMapIter != this->regMap.end() )
 		{
 			EventList &evtList = regMapIter->second;
@@ -181,7 +181,7 @@ namespace OPS
 
 	bool Reactor::delOwn(Socket *sk, bool isDelSk)
 	{
-		map<int, EventList>::iterator iter = this->regMap.find( sk->getFd() );
+		HASH_MAP<int, EventList>::iterator iter = this->regMap.find( sk->getFd() );
 		if ( iter != this->regMap.end() )
 		{
 			iter->second.isDelEvt = true;
@@ -203,7 +203,7 @@ namespace OPS
 			eventCount = epoll_wait(this->epfd, this->events, REACTOR_EVERY_HANDLE_MAX_COUNT, -1);	// -1表示阻塞等待
 			for (int i=0; i<eventCount; i++)
 			{
-				map<int, EventList>::iterator regMapIter = regMap.find( events[i].data.fd );
+				HASH_MAP<int, EventList>::iterator regMapIter = regMap.find( events[i].data.fd );
 				if ( regMapIter != regMap.end() )
 				{
 					EventList &evtList = regMapIter->second;

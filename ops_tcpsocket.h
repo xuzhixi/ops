@@ -16,6 +16,7 @@
 #define __OPS_TCPSOCKET_H
 
 #include "OPS_Socket.h"
+#include "OPS_IBuffer.h"
 
 namespace OPS
 {
@@ -23,10 +24,17 @@ namespace OPS
 class TcpSocket : public Socket
 {
 	public:
+		TcpSocket();
+		~TcpSocket();
 		bool init(const char *ip, unsigned int port, bool block);
 		bool connect(const char *ip, unsigned int port);
 		ssize_t send(const char *buf, size_t sendLen);
 		ssize_t recv(char *buf, size_t bufLen);
+		void setBuffer(IBuffer *buf);
+		IBuffer *getBuffer();
+	
+	private:
+		IBuffer *buffer;
 };
 
 }

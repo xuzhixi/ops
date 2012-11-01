@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-25 09:46:54
- *  Last   modified:  2012-10-29 14:38:27
+ *  Last   modified:  2012-10-31 14:18:49
  *
  *  Description: 
  */
@@ -18,6 +18,7 @@
 #include <sys/epoll.h>
 #include <map>
 #include "OPS_Socket.h"
+#include "OPS_HashMap.h"
 
 using std::map;
 
@@ -65,12 +66,12 @@ class Reactor
 		void quit();				///< 退出事件循环
 
 	private:
-		int epfd;						///< epoll 句柄
-		unsigned int mode;				///< 触发模式ET or LT
-		map<int, EventList> regMap;		///< 记录已注册的事件
+		int epfd;							///< epoll 句柄
+		unsigned int mode;					///< 触发模式ET or LT
+		HASH_MAP<int, EventList> regMap;	///< 记录已注册的事件
 		struct epoll_event events[REACTOR_EVERY_HANDLE_MAX_COUNT];       ///< 记录已经触发的事件
-		bool isQuit;					///< 是否退出事件循环
-		void *userData;					///< 存放用户数据
+		bool isQuit;						///< 是否退出事件循环
+		void *userData;						///< 存放用户数据
 };
 
 }
