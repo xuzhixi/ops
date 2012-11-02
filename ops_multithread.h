@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-30 03:30:29
- *  Last   modified:  2012-10-30 04:16:15
+ *  Last   modified:  2012-11-02 12:04:06
  *
  *  Description: 
  */
@@ -42,10 +42,13 @@ namespace OPS
 
 			void start()
 			{
-				this->isStart = true;
-				for (size_t i=0; i<(this->size); i++)
+				if ( !this->isStart )
 				{
-					this->threads[i].start();
+					this->isStart = true;
+					for (size_t i=0; i<(this->size); i++)
+					{
+						this->threads[i].start();
+					}
 				}
 			}
 
