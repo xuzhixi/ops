@@ -36,7 +36,7 @@ namespace OPS
 class Socket
 {
 	public:
-		~Socket();
+		virtual ~Socket();
 		bool init(const char *ip, unsigned int port, int type, bool block);
 		bool close();
 		void setFd(int fd);

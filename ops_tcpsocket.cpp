@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-17 08:20:07
- *  Last   modified:  2012-10-29 13:46:46
+ *  Last   modified:  2012-11-02 10:08:41
  *
  *  Description: 
  */
@@ -20,14 +20,20 @@ namespace OPS
 {
 	TcpSocket::TcpSocket()
 	{
-		this->buffer = NULL;
+		this->recvBuffer = NULL;
 	}
 
 	TcpSocket::~TcpSocket()
 	{
-		if ( this->buffer != NULL )
+		if ( this->recvBuffer != NULL )
 		{
-			delete buffer;
+			delete recvBuffer;
+		}
+		while ( !sendQueue.empty() )
+		{
+			Package *pk = NULL;
+			sendQueue.pop( pk );
+			delete pk;
 		}
 	}
 
@@ -66,13 +72,47 @@ namespace OPS
 		return ::recv(this->getFd(), buf, bufLen, 0);
 	}
 
-	void TcpSocket::setBuffer(IBuffer *buf)
+	void TcpSocket::setRecvBuffer(IBuffer *buf)
 	{
-		this->buffer = buf;
+		this->recvBuffer = buf;
 	}
 
-	IBuffer *TcpSocket::getBuffer()
+	IBuffer *TcpSocket::getRecvBuffer()
 	{
-		return this->buffer;
+		return this->recvBuffer;
+	}
+
+	void TcpSocket::sendToQueue(char *data, size_t sendLen)
+	{
+		Package *pk = new Package(data, sendLen);
+		sendQueue.push( pk );	
+	}
+	
+	void TcpSocket::flushQueue()
+	{
+		ssize_t sendLen;
+
+		while ( !sendQueue.empty() )
+		{
+			Package *pk = NULL;
+			sendQueue.pop( pk );
+
+			sendLen = this->send( pk->data, pk->len );
+			if ( sendLen != (ssize_t)pk->len )
+			{
+				if ( sendLen == -1 )	// 发送错误
+				{
+					KY_LOG_ERROR("socket(%d) send package error!", this->getFd());
+				}
+				else	// 由于发送缓存区满，只发送了一部分
+				{
+					pk->len -= sendLen;
+					memcpy(pk->data, pk->data + sendLen, pk->len);
+				}
+				sendQueue.pushFront( pk );	// 压入队列头部，下次继续发送
+				break;
+			}
+			delete pk;
+		}
 	}
 }
