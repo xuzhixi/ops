@@ -32,7 +32,7 @@ int main()
 		return -1;
 	}
 	
-	for (int i=0; i<100; i++)
+	for (int i=0; i<10000; i++)
 	{
 		client.send("[5,12345]", 9);
 	}

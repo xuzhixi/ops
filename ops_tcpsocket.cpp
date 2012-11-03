@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-17 08:20:07
- *  Last   modified:  2012-11-02 10:08:41
+ *  Last   modified:  2012-11-03 14:12:23
  *
  *  Description: 
  */
@@ -31,9 +31,8 @@ namespace OPS
 		}
 		while ( !sendQueue.empty() )
 		{
-			Package *pk = NULL;
+			SharePtr<Package> pk;
 			sendQueue.pop( pk );
-			delete pk;
 		}
 	}
 
@@ -82,10 +81,9 @@ namespace OPS
 		return this->recvBuffer;
 	}
 
-	void TcpSocket::sendToQueue(char *data, size_t sendLen)
+	void TcpSocket::sendToQueue(SharePtr<Package> pkg)
 	{
-		Package *pk = new Package(data, sendLen);
-		sendQueue.push( pk );	
+		sendQueue.push( pkg );	
 	}
 	
 	void TcpSocket::flushQueue()
@@ -94,25 +92,27 @@ namespace OPS
 
 		while ( !sendQueue.empty() )
 		{
-			Package *pk = NULL;
-			sendQueue.pop( pk );
+			SharePtr<Package> pkg;
+			sendQueue.pop( pkg );
 
-			sendLen = this->send( pk->data, pk->len );
-			if ( sendLen != (ssize_t)pk->len )
+			sendLen = this->send( pkg->data, pkg->len );
+			if ( sendLen != (ssize_t)pkg->len )
 			{
 				if ( sendLen == -1 )	// 发送错误
 				{
 					KY_LOG_ERROR("socket(%d) send package error!", this->getFd());
+					sendQueue.pushFront( pkg );			// 压入队列头部，下次继续发送
 				}
 				else	// 由于发送缓存区满，只发送了一部分
 				{
-					pk->len -= sendLen;
-					memcpy(pk->data, pk->data + sendLen, pk->len);
+					pkg->len -= sendLen;	// 计算剩余数据长度
+					char *residue = (char *)malloc( pkg->len );
+					memcpy(residue, pkg->data + sendLen, pkg->len);
+					Package *newPkg = new Package(residue, pkg->len);
+					sendQueue.pushFront( newPkg );		// 剩余数据，压入队列头部，下次继续发送
 				}
-				sendQueue.pushFront( pk );	// 压入队列头部，下次继续发送
 				break;
 			}
-			delete pk;
 		}
 	}
 }

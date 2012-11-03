@@ -25,16 +25,16 @@ class TestThread : public IThread
 		{
 			int num = 0;
 
-			MutexGuard gl(&g_mutex);
+			//MutexGuard gl(&g_mutex);
 			while (1)
 			{
 				num++;
-				printf("name: %s threadId: %lu\n", this->name.c_str(), this->getThreadId());
+				printf("name: %s threadId: %lu\n", this->name.c_str(), IThread::currentTid());
 				sleep(1);
-				if ( num == 5 )
-				{
-					break;
-				}
+				//if ( num == 5 )
+				//{
+				//	break;
+				//}
 			}
 		}
 	
@@ -46,14 +46,13 @@ int main()
 {
 	TestThread t;
 
-	ky_log_open_default("stdout", "a", KY_LOG_LEVEL_ALL, 0, 0);
 	t.setName("xiaoming");
+	t.setIsDetach( true );
 	t.start();
 
 	sleep(1);
-	MutexGuard gl(&g_mutex);
+	//MutexGuard gl(&g_mutex);
 	printf("main function\n");
-	ky_log_close_default();
 
 	return 0;
 }
