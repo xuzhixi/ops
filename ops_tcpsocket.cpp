@@ -6,12 +6,13 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-17 08:20:07
- *  Last   modified:  2012-11-03 14:12:23
+ *  Last   modified:  2012-11-07 11:33:37
  *
  *  Description: 
  */
 //================================================
 
+#include <netinet/tcp.h>
 #include <errno.h>
 #include "ky_log.h"
 #include "OPS_TcpSocket.h"
@@ -71,12 +72,72 @@ namespace OPS
 		return ::recv(this->getFd(), buf, bufLen, 0);
 	}
 
-	void TcpSocket::setRecvBuffer(IBuffer *buf)
+	bool TcpSocket::setSendBuffer(int bytes)
+	{
+		// 实际分配缓冲区大小是 2 * bytes, 因为Linux假定发送/接收缓冲区的一半用于内部的内核结构
+		return setSockOpt(this->getFd(), SOL_SOCKET, SO_SNDBUF, (const char*)&bytes, sizeof(int));
+	}
+
+	int  TcpSocket::getSendBuffer()
+	{
+		int bytes;
+
+		getSockOpt(this->getFd(), SOL_SOCKET, SO_SNDBUF, (void *)&bytes, sizeof(int));
+		bytes /= 2;
+		return bytes;
+	}
+
+	bool TcpSocket::setRecvBuffer(int bytes)
+	{
+		// 实际分配缓冲区大小是 2 * bytes, 因为Linux假定发送/接收缓冲区的一半用于内部的内核结构
+		return setSockOpt(this->getFd(), SOL_SOCKET, SO_RCVBUF, (const char*)&bytes, sizeof(int));
+	}
+
+	int  TcpSocket::getRecvBuffer()
+	{
+		int bytes;
+
+		getSockOpt(this->getFd(), SOL_SOCKET, SO_RCVBUF, (void *)&bytes, sizeof(int));
+		bytes /= 2;
+		return bytes;
+	}
+
+	bool TcpSocket::setDisableNagle(bool on)
+	{
+		int optval = (int)on;
+
+		return setSockOpt(this->getFd(), IPPROTO_TCP, TCP_NODELAY, (const char*)&optval, sizeof(int));
+	}
+
+	bool  TcpSocket::getDisableNagle()
+	{
+		int optval;
+
+		getSockOpt(this->getFd(), IPPROTO_TCP, TCP_NODELAY, (void *)&optval, sizeof(int));
+		return optval;
+	}
+
+	bool TcpSocket::setCork(bool on)
+	{
+		int optval = (int)on;
+
+		return setSockOpt(this->getFd(), IPPROTO_TCP, TCP_CORK, (const char*)&optval, sizeof(int));
+	}
+
+	bool  TcpSocket::getCork()
+	{
+		int optval;
+
+		getSockOpt(this->getFd(), IPPROTO_TCP, TCP_CORK, (void *)&optval, sizeof(int));
+		return optval;
+	}
+
+	void TcpSocket::setAppRecvBuffer(IBuffer *buf)
 	{
 		this->recvBuffer = buf;
 	}
 
-	IBuffer *TcpSocket::getRecvBuffer()
+	IBuffer *TcpSocket::getAppRecvBuffer()
 	{
 		return this->recvBuffer;
 	}

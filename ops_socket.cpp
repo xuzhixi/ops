@@ -6,13 +6,14 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-17 08:19:47
- *  Last   modified:  2012-11-01 14:11:54
+ *  Last   modified:  2012-11-07 11:34:07
  *
  *  Description: 
  */
 //================================================
 
 #include <unistd.h>
+#include <errno.h>
 #include <string.h>
 #include <arpa/inet.h>
 #include <fcntl.h>
@@ -34,20 +35,19 @@ bool Socket::init(const char *ip, unsigned int port, int type, bool block)
 
 	if  ( (this->fd = socket(AF_INET, type, 0)) == -1 ) 
 	{   
-		KY_LOG_ERROR("socket error");
+		KY_LOG_ERROR("socket error, errno(%d)", errno);
 		return false;
 	}   
 
 	// SO_REUSEADDR 允许在bind()过程中本地地址可重复使用
-	if ( setsockopt(this->fd, SOL_SOCKET, SO_REUSEADDR, (void *)&optval, sizeof(optval)) != 0 )
+	if ( !setSockOpt(this->fd, SOL_SOCKET, SO_REUSEADDR, (void *)&optval, sizeof(optval)) )
 	{
-		KY_LOG_ERROR("setsockopt SO_REUSEADDR error");
 		return false;
 	}
 
 	if ( block == false )
 	{
-		if ( Socket::setNonblock(this->fd) == false )
+		if ( this->setNonblock() == false )
 		{
 			return false;
 		}
@@ -57,7 +57,7 @@ bool Socket::init(const char *ip, unsigned int port, int type, bool block)
 
 	if( bind(this->fd, (struct sockaddr *)&addr, sizeof(addr)) == -1 )
 	{
-		KY_LOG_ERROR("bind error");
+		KY_LOG_ERROR("bind error, errno(%d)", errno);
 		return false;
 	}
 
@@ -73,6 +73,28 @@ bool Socket::init(const char *ip, unsigned int port, int type, bool block)
 	return true;
 }
 
+bool Socket::setSockOpt(int s, int level, int optname, const void *optval, socklen_t optlen)
+{
+	if ( setsockopt(s, level, optname, optval, optlen) != 0 )
+	{
+		KY_LOG_ERROR("setsockopt optname(%d) error, errno(%d)", optname, errno);
+		return false;
+	}
+	
+	return true;
+}
+
+bool Socket::getSockOpt(int s, int level, int optname, void *optval, socklen_t optlen)
+{
+	if ( getsockopt(s, level, optname, optval, &optlen) != 0 )
+	{
+		KY_LOG_ERROR("getsockopt optname(%d) error, errno(%d)", optname, errno);
+		return false;
+	}
+	
+	return true;
+}
+
 bool Socket::close()
 {
 	if ( ::close(this->fd) == 0 )
@@ -81,7 +103,7 @@ bool Socket::close()
 	}
 	else
 	{
-		KY_LOG_ERROR("close socket(%d) error", this->fd);
+		KY_LOG_ERROR("close socket(%d) error, errno(%d)", this->fd, errno);
 		return false;
 	}
 }
@@ -138,6 +160,11 @@ void Socket::savePeer(struct sockaddr_in &addr)
 	this->peerPort = ntohs(addr.sin_port);
 }
 
+bool Socket::setNonblock()
+{
+	return Socket::setNonblock( this->fd );
+}
+
 void Socket::initSockAddr(struct sockaddr_in &addr, const char *ip, unsigned int port)
 {
 	addr.sin_family = AF_INET;			    // 主机字节顺序
@@ -153,14 +180,14 @@ bool Socket::setNonblock(int fd)
 	opts = fcntl(fd, F_GETFL);
 	if( opts == -1 )
 	{
-		KY_LOG_ERROR("set socketFd nonblock, fcntl(%d, F_GETFL) error", fd);
+		KY_LOG_ERROR("set socketFd nonblock, fcntl(%d, F_GETFL) error, errno(%d)", fd, errno);
 		return false;
 	}
 
 	opts = opts | O_NONBLOCK;
 	if( fcntl(fd, F_SETFL, opts) == -1 )
 	{
-		KY_LOG_ERROR("set socketFd:%d nonblock error", fd);
+		KY_LOG_ERROR("set socketFd:%d nonblock error, errno(%d)", fd, errno);
 		return false;
 	}   
 

@@ -6,7 +6,7 @@
  *  Email   932834199@qq.com or 932834199@163.com
  *
  *  Create datetime:  2012-10-17 08:19:43
- *  Last   modified:  2012-11-01 14:11:42
+ *  Last   modified:  2012-11-07 11:34:08
  *
  *  Description: 
  */
@@ -20,7 +20,8 @@
 #include <string>
 
 /// 表示任意的IP
-#define SOCKET_ADDR_ANY "0.0.0.0"
+#define SOCKET_ADDR_ANY	  "0.0.0.0"
+#define SOCKET_ADDR_LOCAL "127.0.0.1"
 /// 表示任意的端口 
 #define SOCKET_PORT_ANY 0
 /// TCP连接方式
@@ -38,6 +39,8 @@ class Socket
 	public:
 		virtual ~Socket();
 		bool init(const char *ip, unsigned int port, int type, bool block);
+		bool setSockOpt(int s, int level, int optname, const void *optval, socklen_t optlen);
+		bool getSockOpt(int s, int level, int optname, void *optval, socklen_t optlen);
 		bool close();
 		void setFd(int fd);
 		int getFd();
@@ -49,6 +52,7 @@ class Socket
 		unsigned int getPeerPort();
 		void saveLocal(struct sockaddr_in &addr);		// 保存本地的IP和端口
 		void savePeer(struct sockaddr_in &addr);		// 保存对方的IP和端口
+		bool setNonblock();
 
 		static void initSockAddr(struct sockaddr_in &addr, const char *ip, unsigned int port);	// 初始化sockaddr_in
 		static bool setNonblock(int fd);

@@ -15,9 +15,11 @@
 #include <stdio.h>
 #include <string>
 #include "OPS_SharePtr.h"
+#include "OPS_NoMutex.h"
 
 using std::string;
 using OPS::SharePtr;
+using OPS::NoMutex;
 
 class Test
 {
