@@ -47,7 +47,7 @@ class PriorityQueue
 			}
 			this->que.push( val );
 			this->mutex.unlock();
-			this->popCond.notifyAll();
+			this->popCond.notify();
 		}
 		
 		bool push(const T &val, long sec, long nsec = 0)
@@ -67,7 +67,7 @@ class PriorityQueue
 			}
 			this->que.push( val );
 			this->mutex.unlock();
-			this->popCond.notifyAll();
+			this->popCond.notify();
 
 			return true;
 		}
@@ -82,7 +82,7 @@ class PriorityQueue
 			val = this->que.top();
 			this->que.pop();
 			this->mutex.unlock();
-			this->pushCond.notifyAll();
+			this->pushCond.notify();
 		}
 
 		bool pop(T &val, long sec, long nsec = 0)
@@ -103,7 +103,7 @@ class PriorityQueue
 			val = this->que.top();
 			this->que.pop();
 			this->mutex.unlock();
-			this->pushCond.notifyAll();
+			this->pushCond.notify();
 
 			return true;
 		}

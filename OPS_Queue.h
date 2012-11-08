@@ -43,7 +43,7 @@ class Queue
 			}
 			this->que.push_front( val );
 			this->mutex.unlock();
-			this->popCond.notifyAll();
+			this->popCond.notify();
 		}
 
 		bool pushFront(const T &val, long sec, long nsec = 0)
@@ -63,7 +63,7 @@ class Queue
 			}
 			this->que.push_front( val );
 			this->mutex.unlock();
-			this->popCond.notifyAll();
+			this->popCond.notify();
 
 			return true;
 		}
@@ -77,7 +77,7 @@ class Queue
 			}
 			this->que.push_back( val );
 			this->mutex.unlock();
-			this->popCond.notifyAll();
+			this->popCond.notify();
 		}
 		
 		bool push(const T &val, long sec, long nsec = 0)
@@ -97,7 +97,7 @@ class Queue
 			}
 			this->que.push_back( val );
 			this->mutex.unlock();
-			this->popCond.notifyAll();
+			this->popCond.notify();
 
 			return true;
 		}
@@ -112,7 +112,7 @@ class Queue
 			val = this->que.front();
 			this->que.pop_front();
 			this->mutex.unlock();
-			this->pushCond.notifyAll();
+			this->pushCond.notify();
 		}
 
 		bool pop(T &val, long sec, long nsec = 0)
@@ -133,7 +133,7 @@ class Queue
 			val = this->que.front();
 			this->que.pop_front();
 			this->mutex.unlock();
-			this->pushCond.notifyAll();
+			this->pushCond.notify();
 
 			return true;
 		}
